@@ -1,0 +1,120 @@
+//add_item|tile id|display name|eItemType| eTileVisualEffect| eTileStorage| frameX| frameY| filename| hash (0 for none)|0 layer|eCollisionType|HP|Seconds before healing|
+//add_clothes|tile id|display name|eItemType|eTileVisualEffect| eTileStorage| frameX| frameY| filename| hash|body part (FACEITEM| PANTS| HAT| etc)|
+
+//layer is always 0 for now
+
+add_item|0|Blank|TYPE_NORMAL|MATERIAL_WOOD|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|2|1|tileset_1.rttex|0|0|TILE_COLLISION_NONE|4|8|
+setup_seed|1|seed1|0|seed2|0|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_item|2|Dirt|TYPE_NORMAL|MATERIAL_WOOD|VISUAL_EFFECT_NONE|STORAGE_SMART_EDGE|0|0|dirt_tiles.rttex|0|0|TILE_COLLISION_SOLID|3|8|
+setup_seed|3|seed1|0|seed2|0|seconds_to_bloom|0|max_fruit|0|bg_color|96,57,19,255|fg_color|166,124,82,255|
+add_item|4|Lava|TYPE_LAVA|MATERIAL_WOOD|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|0|0|tileset_1.rttex|0|0|TILE_COLLISION_SOLID|4|8|
+setup_seed|5|seed1|15|seed2|11|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_item|6|Main Door|TYPE_DOOR|MATERIAL_WOOD|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|3|1|tileset_1.rttex|0|0|TILE_COLLISION_NONE|5|8|
+setup_seed|7|seed1|0|seed2|0|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_item|8|Bedrock|TYPE_BEDROCK|MATERIAL_WOOD|VISUAL_EFFECT_NONE|STORAGE_SMART_EDGE|0|0|tiles_bedrock.rttex|0|0|TILE_COLLISION_SOLID|4|8|
+setup_seed|9|seed1|0|seed2|0|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_item|10|Rock|TYPE_NORMAL|MATERIAL_WOOD|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|1|1|tileset_1.rttex|0|0|TILE_COLLISION_SOLID|10|5|
+setup_seed|11|seed1|0|seed2|0|seconds_to_bloom|0|max_fruit|0|bg_color|128,128,128,255|fg_color|200,200,200,255|
+add_item|12|Door|TYPE_USER_DOOR|MATERIAL_WOOD|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|0|1|tileset_1.rttex|0|0|TILE_COLLISION_NONE|5|8|
+setup_seed|13|seed1|3|seed2|11|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_item|14|Cave Background|TYPE_BACKGROUND|MATERIAL_WOOD|VISUAL_EFFECT_NONE|STORAGE_SMART_EDGE|0|0|tiles_rockwall.rttex|0|0|TILE_COLLISION_NONE|3|4|
+setup_seed|15|seed1|3|seed2|13|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_item|16|Grass|TYPE_NORMAL|MATERIAL_WOOD|VISUAL_EFFECT_NONE|STORAGE_SMART_EDGE_HORIZ|0|0|tiles_grass.rttex|0|0|TILE_COLLISION_NONE|1|1|
+setup_seed|17|seed1|37|seed2|99|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_item|18|Fist|TYPE_FIST|MATERIAL_WOOD|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|1|0|tileset_1.rttex|0|0|TILE_COLLISION_SOLID|4|8|
+set_max_can_hold|18|0|
+add_item|20|Sign|TYPE_SIGN|MATERIAL_WOOD|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|0|0|tiles_signs.rttex|0|0|TILE_COLLISION_NONE|5|8|
+setup_seed|21|seed1|99|seed2|11|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_item|22|Daisy|TYPE_NORMAL|MATERIAL_WOOD|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|0|0|tiles_flowers.rttex|0|0|TILE_COLLISION_NONE|3|4|
+setup_seed|23|seed1|49|seed2|43|seconds_to_bloom|0|max_fruit|0|bg_color|80,255,80,255|fg_color|255,255,0,255|
+add_item|24|Pointy Sign|TYPE_SIGN|MATERIAL_WOOD|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|2|0|tiles_signs.rttex|0|0|TILE_COLLISION_NONE|4|8|
+setup_seed|25|seed1|53|seed2|27|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_item|26|Crappy Sign|TYPE_SIGN|MATERIAL_WOOD|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|3|0|tiles_signs.rttex|0|0|TILE_COLLISION_NONE|4|8|
+setup_seed|27|seed1|13|seed2|11|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_item|28|Danger Sign|TYPE_SIGN|MATERIAL_WOOD|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|0|1|tiles_signs.rttex|0|0|TILE_COLLISION_NONE|4|8|
+setup_seed|29|seed1|27|seed2|99|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_item|30|Dungeon Door|TYPE_USER_DOOR|MATERIAL_WOOD|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|1|2|tileset_1.rttex|0|0|TILE_COLLISION_NONE|4|8|
+setup_seed|31|seed1|47|seed2|69|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_item|32|Wrench|TYPE_WRENCH|MATERIAL_WOOD|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|2|0|tile_grid_overlay.rttex|0|0|TILE_COLLISION_NONE|4|8|
+set_max_can_hold|32|0|
+add_clothes|34|Shades|TYPE_CLOTHES|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|1|0|player_faceitem.rttex|0|FACEITEM|
+setup_seed|35|seed1|37|seed2|3|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_clothes|36|Green Shirt|TYPE_CLOTHES|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|1|0|player_shirt.rttex|0|SHIRT|
+setup_seed|37|seed1|3|seed2|15|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_clothes|38|Tuxedo|TYPE_CLOTHES|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|2|0|player_shirt.rttex|0|SHIRT|
+setup_seed|39|seed1|37|seed2|105|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_clothes|40|Brown Shoes|TYPE_CLOTHES|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|1|0|player_feet.rttex|0|SHOES|
+setup_seed|41|seed1|13|seed2|15|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_clothes|42|Boots|TYPE_CLOTHES|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|2|0|player_feet.rttex|0|SHOES|
+setup_seed|43|seed1|13|seed2|27|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_clothes|44|Red Hair|TYPE_CLOTHES|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|1|0|player_hair.rttex|0|HAT|
+setup_seed|45|seed1|5|seed2|3|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_clothes|46|Baseball Cap|TYPE_CLOTHES|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|2|0|player_hair.rttex|0|HAT|
+setup_seed|47|seed1|3|seed2|41|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_clothes|48|Jeans|TYPE_CLOTHES|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|1|0|player_pants.rttex|0|PANTS|
+setup_seed|49|seed1|11|seed2|15|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_clothes|50|Sexy Boxers|TYPE_CLOTHES|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|2|0|player_pants.rttex|0|PANTS|
+setup_seed|51|seed1|5|seed2|47|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_item|52|Wooden Background|TYPE_BACKGROUND|MATERIAL_WOOD|VISUAL_EFFECT_NONE|STORAGE_SMART_EDGE|0|0|tiles_woodwall.rttex|0|0|TILE_COLLISION_NONE|3|4|
+setup_seed|53|seed1|101|seed2|103|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_item|54|Window|TYPE_BACKGROUND|MATERIAL_GLASS|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|0|0|tiles_windows.rttex|0|0|TILE_COLLISION_NONE|1|1|
+setup_seed|55|seed1|13|seed2|41|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_item|56|Glass Pane|TYPE_BACKGROUND|MATERIAL_GLASS|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|1|0|tiles_windows.rttex|0|0|TILE_COLLISION_NONE|1|1|
+setup_seed|57|seed1|55|seed2|51|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_item|58|Wooden Window|TYPE_BACKGROUND|MATERIAL_GLASS|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|2|0|tiles_windows.rttex|0|0|TILE_COLLISION_NONE|1|1|
+setup_seed|59|seed1|101|seed2|57|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_item|60|Lock|TYPE_LOCK|MATERIAL_WOOD|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|0|0|tiles_lock.rttex|0|0|TILE_COLLISION_SOLID|10|5|
+setup_seed|61|seed1|0|seed2|0|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_item|62|Boombox|TYPE_BOOMBOX|MATERIAL_WOOD|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|0|0|tiles_boombox.rttex|0|0|TILE_COLLISION_NONE|10|5|
+set_extra_string|62|audio/mp3/boombox.mp3|anim_ms|400|
+setup_seed|63|seed1|91|seed2|81|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_item|64|Olde Timey Radio|TYPE_BOOMBOX|MATERIAL_WOOD|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|0|1|tiles_boombox.rttex|0|0|TILE_COLLISION_SOLID|10|5|
+set_extra_string|64|audio/mp3/old_timey.mp3|anim_ms|400|
+setup_seed|65|seed1|31|seed2|63|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_clothes|66|Top Hat|TYPE_CLOTHES|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|3|0|player_hair.rttex|0|HAT|
+setup_seed|67|seed1|87|seed2|97|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_clothes|68|Brown Hair|TYPE_CLOTHES|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|4|0|player_hair.rttex|0|HAT|
+setup_seed|69|seed1|3|seed2|41|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_clothes|70|Spikey Hair|TYPE_CLOTHES|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|5|0|player_hair.rttex|0|HAT|
+setup_seed|71|seed1|35|seed2|85|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_clothes|72|Afro|TYPE_CLOTHES|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|6|0|player_hair.rttex|0|HAT|
+setup_seed|73|seed1|35|seed2|43|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_clothes|74|Ski Cap|TYPE_CLOTHES|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|7|0|player_hair.rttex|0|HAT|
+setup_seed|75|seed1|21|seed2|77|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_clothes|76|Black Pants|TYPE_CLOTHES|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|3|0|player_pants.rttex|0|PANTS|
+setup_seed|77|seed1|3|seed2|49|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_clothes|78|Patent Leather Shoes|TYPE_CLOTHES|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|3|0|player_feet.rttex|0|SHOES|
+setup_seed|79|seed1|23|seed2|73|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_clothes|80|Ruby Slippers|TYPE_CLOTHES|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|4|0|player_feet.rttex|0|SHOES|
+setup_seed|81|seed1|29|seed2|45|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_clothes|82|Green Skirt|TYPE_CLOTHES|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|4|0|player_pants.rttex|0|PANTS|
+setup_seed|83|seed1|11|seed2|37|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_clothes|84|Green Blouse|TYPE_CLOTHES|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|3|0|player_shirt.rttex|0|SHIRT|
+setup_seed|85|seed1|15|seed2|37|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_clothes|86|Purple Thong|TYPE_CLOTHES|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|5|0|player_pants.rttex|0|PANTS|
+setup_seed|87|seed1|83|seed2|77|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_clothes|88|Purple Bikini Top|TYPE_CLOTHES|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|4|0|player_shirt.rttex|0|SHIRT|
+setup_seed|89|seed1|21|seed2|69|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_clothes|90|Blonde Bombshell|TYPE_CLOTHES|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|0|1|player_hair.rttex|0|HAT|
+setup_seed|91|seed1|17|seed2|93|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_clothes|92|Briefcase|TYPE_CLOTHES|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|1|0|player_handitem.rttex|0|HAND|
+setup_seed|93|seed1|49|seed2|99|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_clothes|94|Sword|TYPE_CLOTHES|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|2|0|player_handitem.rttex|0|HAND|
+setup_seed|95|seed1|105|seed2|57|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_clothes|96|Just One Boxing Glove|TYPE_CLOTHES|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|3|0|player_handitem.rttex|0|HAND|
+setup_seed|97|seed1|83|seed2|43|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_clothes|98|Pickaxe|TYPE_CLOTHES|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|4|0|player_handitem.rttex|0|HAND|
+setup_seed|99|seed1|11|seed2|27|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_item|100|Wood Block|TYPE_NORMAL|MATERIAL_WOOD|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|2|0|tileset_1.rttex|0|0|TILE_COLLISION_SOLID|3|4|
+setup_seed|101|seed1|13|seed2|15|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_item|102|Wooden Platform|TYPE_PLATFORM|MATERIAL_WOOD|VISUAL_EFFECT_NONE|STORAGE_SMART_EDGE_HORIZ|1|0|tiles_woodplatform.rttex|0|0|TILE_COLLISION_JUMP_THROUGH|3|8|
+setup_seed|103|seed1|101|seed2|27|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_item|104|Rock Background|TYPE_BACKGROUND|MATERIAL_WOOD|VISUAL_EFFECT_NONE|STORAGE_SMART_EDGE|0|0|tiles_rockbackgd.rttex|0|0|TILE_COLLISION_NONE|3|8|
+setup_seed|105|seed1|5|seed2|11|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_item|106|Toilet|TYPE_SFX_WITH_EXTRA_FRAME|MATERIAL_WOOD|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|0|0|tiles_toilet.rttex|0|0|TILE_COLLISION_NONE|10|5|
+set_extra_string|106|audio/toilet_flush.wav|anim_ms|3500|
+setup_seed|107|seed1|59|seed2|75|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_item|108|Painting: Yerfdog|TYPE_BACKGROUND|MATERIAL_WOOD|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|0|0|tiles_paintings.rttex|0|0|TILE_COLLISION_NONE|3|8|
+setup_seed|109|seed1|89|seed2|39|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
+add_item|110|Painting: Dink On Fire|TYPE_BACKGROUND|MATERIAL_WOOD|VISUAL_EFFECT_NONE|STORAGE_SINGLE_FRAME_IN_TILESHEET|1|0|tiles_paintings.rttex|0|0|TILE_COLLISION_NONE|3|8|
+setup_seed|111|seed1|5|seed2|71|seconds_to_bloom|0|max_fruit|0|bg_color|0,0,0,0|fg_color|0,0,0,0|
