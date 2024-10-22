@@ -1,0 +1,416 @@
+<html>
+<head>
+<title>OLC Platform Game</title>
+<style>
+.square {
+  height: 100px;
+  width: 100%;
+  background-color: #fff;
+}
+</style>
+</head>
+<body>
+<div class="centered">
+<div>Hello! This is a port of Javidx9's Platform Game made using his Console Game Engine.</div>
+<br>
+<br>
+<canvas id="gc" width="640" height="480">Can't load canvas. Please update your browser</canvas>
+<script>
+var c, cc;
+var sLevel;
+var nLevelWidth;
+var nLevelHeight;
+
+var ScreenWidth;
+var ScreenHeight;
+
+var fPlayerPosX = 0.0;
+var fPlayerPosY = 0.0;
+
+var fCameraPosX = 0.0;
+var fCameraPosY = 0.0;
+
+var fPlayerVelX = 0.0;
+var fPlayerVelY = 0.0;
+
+var spriteTiles;
+var spriteMan;
+
+var nDirModX = 0, nDirModY = 0;
+
+var nTileWidth = 32;
+var nTileHeight = 32;
+
+var nTileSelWidth = 16;
+var nTileSelHeight = 16;
+
+var level_number = 0; // change this for checking out included levels
+
+function getStyle(el,styleProp)
+{
+    var x = document.getElementById(el);
+
+    if (window.getComputedStyle)
+    {
+        var y = document.defaultView.getComputedStyle(x,null).getPropertyValue(styleProp); 
+    }  
+    else if (x.currentStyle)
+    {
+        var y = x.currentStyle[styleProp];
+    }                     
+
+    return y;
+}
+
+
+OnUserCreate = function()
+{
+	c.imageSmoothingEnabled = false;
+
+	nLevelWidth = 64;
+	nLevelHeight = 16;
+	
+	spriteTiles = document.getElementById("leveljario");
+	spriteMan = document.getElementById("minijario");
+	
+	sLevel = "";
+	if (level_number == 0)
+    {
+        sLevel += "................................................................";
+        sLevel += "................................................................";
+        sLevel += "###....ooooo....................................................";
+        sLevel += "........ooo.....................................................";
+        sLevel += ".......................########.................................";
+        sLevel += ".....BB?BBBB?BB.......###..............#.#......................";
+        sLevel += "....................###................#.#......................";
+        sLevel += "...................####.........................................";
+        sLevel += "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG.############.......########";
+        sLevel += "...................................#.#...............###........";
+        sLevel += "........................############.#....oooo....###...........";
+        sLevel += "........................#............#.oooo....###..............";
+        sLevel += "........................#.############.oo...###.................";
+        sLevel += "........................#................###....................";
+        sLevel += "........................#################.......................";
+        sLevel += "................................................................";
+    }
+    else if (level_number == 1)
+    {
+        sLevel += "................................................................";
+        sLevel += ".....GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG";
+        sLevel += "###..........................................ooo................";
+        sLevel += "...............#.............................ooo................";
+        sLevel += "................................................................";
+        sLevel += "........................################....####................";
+        sLevel += "GG.....##..............#####....................................";
+        sLevel += ".......##.....####....######.####################...............";
+        sLevel += "..GG.................#######..................####..............";
+        sLevel += "################..###########################.#####......#######";
+        sLevel += "............................................#.#........##.......";
+        sLevel += "..................o.o.o.o.o.................#.#........##.......";
+        sLevel += "....BB?BB?BB.......o.o.o.o..........................###.........";
+        sLevel += "................................#...................###.........";
+        sLevel += "................................#................###............";
+        sLevel += "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG####################............";
+    }
+    /*else
+    {
+        sLevel += "................................................................";
+        sLevel += ".e..............................................................";
+        sLevel += "###.............................................................";
+        sLevel += "................................................................";
+        sLevel += "................??..............................................";
+        sLevel += "..........................ooooooo...............................";
+        sLevel += "...........................ooooo................................";
+        sLevel += "...............[~~].............................................";
+        sLevel += "................ww.......[~~~~~~~]......................=.......";
+        sLevel += "................ww...........w......................[~~~~~~~]...";
+        sLevel += "........BBBBB[~~~~~~]........w..........................w.......";
+        sLevel += "..[~~~~]........ww...........w..........................w.......";
+        sLevel += "....ww..........ww...........w........[~~~~~~~~]........w.......";
+        sLevel += "....ww..........ww...........w............ww............w.......";
+        sLevel += "....ww..........ww...........w............ww............w.......";
+        sLevel += "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG";
+    }*/
+	
+}
+
+String.prototype.replaceAt=function(index, replacement) {
+    return this.substr(0, index) + replacement+ this.substr(index + replacement.length);
+}
+
+GetTile = function(x, y){
+	var nx, ny;
+	nx = Math.floor(x);
+	ny = Math.floor(y);
+	if(nx >= 0 && nx < nLevelWidth && ny >= 0 && ny < nLevelHeight){
+		return sLevel.charAt(ny*nLevelWidth+nx);
+	}else{
+		return ' ';
+	}
+}
+
+SetTile = function(x, y, t){
+	var nx, ny;
+	nx = Math.floor(x);
+	ny = Math.floor(y);
+	if(nx >= 0 && nx < nLevelWidth && ny >= 0 && ny < nLevelHeight){
+		sLevel = sLevel.replaceAt(ny*nLevelWidth+nx, t);
+	}
+}
+
+var KeyDnPressed, KeyLtPressed, KeyRtPressed, KeySpPressed, KeyUpPressed;
+
+window.onkeydown=function(e) {
+ if(e.which==38)
+ {
+  KeyUpPressed=true;
+ }
+ if(e.which==32)
+ {
+  KeySpPressed=true;
+ }
+ if(e.which==40)
+ {
+  KeyDnPressed=true;
+ }
+ if(e.which==37)
+ {
+  KeyLtPressed=true;
+ }
+ if(e.which==39)
+ {
+  KeyRtPressed=true;
+ }
+}
+window.onkeyup=function(e) {
+ if(e.which==38)
+ {
+  KeyUpPressed=false;
+ }
+ if(e.which==32)
+ {
+  KeySpPressed=false;
+ }
+ if(e.which==40)
+ {
+  KeyDnPressed=false;
+ }
+ if(e.which==37)
+ {
+  KeyLtPressed=false;
+ }
+ if(e.which==39)
+ {
+  KeyRtPressed=false;
+ }
+}
+
+var KeySpWasPressed = false;
+var bPlayerOnGround = false;
+
+OnUserUpdate = function()
+{
+	var fElapsedTime = 1/60;
+	//Update
+	
+	
+	if(true){
+		if(KeyUpPressed){
+			fPlayerVelY = -6.0;
+			nDirModX = 1;
+		}
+		if(KeyDnPressed){
+			fPlayerVelY = 6.0;
+			nDirModX = 0;
+		}
+		if(KeyLtPressed){
+			fPlayerVelX += ((bPlayerOnGround) ? -6.0 : -4.0) * fElapsedTime;
+			nDirModY = 1;
+		}
+		if(KeyRtPressed){
+			fPlayerVelX += ((bPlayerOnGround) ? 6.0  :  4.0) * fElapsedTime;
+			nDirModY = 0;
+		}
+		if(KeySpPressed && !KeySpWasPressed){
+			if(bPlayerOnGround){
+				fPlayerVelY = -12.0;
+				nDirModX = 1;
+			}
+		}
+	}
+	
+	fPlayerVelY += 20.0*fElapsedTime;
+    if (bPlayerOnGround)
+    {
+        fPlayerVelX += -3.0 * fPlayerVelX * fElapsedTime;
+        if (Math.abs(fPlayerVelX) < 0.01)
+            fPlayerVelX = 0.0;
+    }
+	
+	fPlayerVelX = (fPlayerVelX > 10.0) ? 10.0 : fPlayerVelX;
+	fPlayerVelX = (fPlayerVelX < -10)  ? -10  : fPlayerVelX;
+	fPlayerVelY = (fPlayerVelY > 100.0) ? 100.0 : fPlayerVelY;
+	fPlayerVelY = (fPlayerVelY < -100)  ? -100  : fPlayerVelY;
+	
+	var fNewPlayerPosX = fPlayerPosX + fPlayerVelX * fElapsedTime;
+	var fNewPlayerPosY = fPlayerPosY + fPlayerVelY * fElapsedTime;
+	
+			if (GetTile(Math.floor(fNewPlayerPosX + 0.0), Math.floor(fNewPlayerPosY + 0.0)) == 'o')
+            {
+                SetTile(Math.floor(fNewPlayerPosX + 0.0), Math.floor(fNewPlayerPosY + 0.0), '.');
+				//console.log("collision tl");
+            }
+
+            if (GetTile(Math.floor(fNewPlayerPosX + 0.0), Math.floor(fNewPlayerPosY + 1.0)) == 'o')
+            {
+                SetTile(Math.floor(fNewPlayerPosX + 0.0), Math.floor(fNewPlayerPosY + 1.0), '.');
+				//console.log("collision bl");
+            }
+
+            if (GetTile(Math.floor(fNewPlayerPosX + 1.0), Math.floor(fNewPlayerPosY + 0.0)) == 'o')
+            {
+                SetTile(Math.floor(fNewPlayerPosX + 1.0), Math.floor(fNewPlayerPosY + 0.0), '.');
+				//console.log("collision tr");
+            }
+            if (GetTile(Math.floor(fNewPlayerPosX + 1.0), Math.floor(fNewPlayerPosY + 1.0)) == 'o')
+            {
+                SetTile(Math.floor(fNewPlayerPosX + 1.0), Math.floor(fNewPlayerPosY + 1.0), '.');
+				//console.log("collision br");
+            }
+	
+	// Collision
+	if(fPlayerVelX <= 0){
+		if(GetTile(fNewPlayerPosX+0.0, fPlayerPosY + 0.0) != '.' ||
+		   GetTile(fNewPlayerPosX+0.0, fPlayerPosY + 0.9) != '.'){
+			fNewPlayerPosX = Math.floor(fNewPlayerPosX) + 1;
+			fPlayerVelX = 0.0;
+		}
+	}else{
+		if(GetTile(fNewPlayerPosX+1.0, fPlayerPosY + 0.0) != '.' ||
+		   GetTile(fNewPlayerPosX+1.0, fPlayerPosY + 0.9) != '.'){
+			fNewPlayerPosX = Math.floor(fNewPlayerPosX);
+			fPlayerVelX = 0.0;
+		}
+	}
+	
+	bPlayerOnGround = false;
+	if(fPlayerVelY <= 0){
+		if(GetTile(fNewPlayerPosX+0.0, fNewPlayerPosY) != '.' ||
+		   GetTile(fNewPlayerPosX+0.9, fNewPlayerPosY) != '.'){
+			fNewPlayerPosY = Math.floor(fNewPlayerPosY) + 1;
+			fPlayerVelY = 0.0;
+		}
+	}else{
+		if(GetTile(fNewPlayerPosX+0.0, fNewPlayerPosY + 1) != '.' ||
+		   GetTile(fNewPlayerPosX+0.9, fNewPlayerPosY + 1) != '.'){
+			fNewPlayerPosY = Math.floor(fNewPlayerPosY);
+			fPlayerVelY = 0.0;
+			bPlayerOnGround = true;
+			nDirModX = 0;
+		}
+	}
+	
+	fPlayerPosX = fNewPlayerPosX;
+	fPlayerPosY = fNewPlayerPosY;
+	
+	//Render
+	//c.drawImage(image, sourceX, sourceY, sourceW, sourceH, destX, destY, destW, destH);
+	
+	//Draw Level
+	
+	fCameraPosX = fPlayerPosX;
+	fCameraPosY = fPlayerPosY;
+	
+	var nVisibleTilesX = ScreenWidth / nTileWidth;
+	var nVisibleTilesY = ScreenHeight/nTileHeight;
+	
+	var fOffsetX = fCameraPosX - (nVisibleTilesX / 2.0);
+	var fOffsetY = fCameraPosY - (nVisibleTilesY / 2.0);
+
+	if(fOffsetX < 0) fOffsetX = 0;
+	if(fOffsetY < 0) fOffsetY = 0;
+    if (fOffsetX > nLevelWidth - nVisibleTilesX) fOffsetX = nLevelWidth - nVisibleTilesX;
+    if (fOffsetY > nLevelHeight- nVisibleTilesY) fOffsetY = nLevelHeight- nVisibleTilesY;
+	
+	var fTileOffsetX = (fOffsetX - Math.floor(fOffsetX)) * nTileWidth;
+	var fTileOffsetY = (fOffsetY - Math.floor(fOffsetY)) *nTileHeight;
+	
+	for(var x = -1; x < nVisibleTilesX + 1; x++){
+		for(var y = -1; y < nVisibleTilesY + 1; y++){
+			var sTileID = GetTile(x+fOffsetX, y+fOffsetY);
+			switch(sTileID){
+				case '.':
+					c.fillStyle = '#00ffff';
+					c.fillRect(x*nTileWidth - fTileOffsetX, y*nTileHeight - fTileOffsetY, nTileWidth, nTileHeight);
+					break;
+				case '#':
+					c.drawImage(spriteTiles, 2 * nTileSelWidth, 0 *nTileSelHeight, nTileSelWidth, nTileSelHeight,
+								x * nTileWidth - fTileOffsetX, y * nTileHeight - fTileOffsetY, nTileWidth, nTileHeight);
+					break;
+				case 'G':
+					c.drawImage(spriteTiles, 0 * nTileSelWidth, 0 *nTileSelHeight, nTileSelWidth, nTileSelHeight,
+								x * nTileWidth - fTileOffsetX, y * nTileHeight - fTileOffsetY, nTileWidth, nTileHeight);
+					break;
+				case 'B':
+					c.drawImage(spriteTiles, 0 * nTileSelWidth, 1 *nTileSelHeight, nTileSelWidth, nTileSelHeight,
+								x * nTileWidth - fTileOffsetX, y * nTileHeight - fTileOffsetY, nTileWidth, nTileHeight);
+					break;
+				case '?':
+					c.fillStyle = '#00ffff';
+					c.fillRect(x*nTileWidth - fTileOffsetX, y*nTileHeight - fTileOffsetY, nTileWidth, nTileHeight);
+					c.drawImage(spriteTiles, 1 * nTileSelWidth, 1 *nTileSelHeight, nTileSelWidth, nTileSelHeight,
+								x * nTileWidth - fTileOffsetX, y * nTileHeight - fTileOffsetY, nTileWidth, nTileHeight);
+					break;
+				case 'o':
+					c.fillStyle = '#00ffff';
+					c.fillRect(x*nTileWidth - fTileOffsetX, y*nTileHeight - fTileOffsetY, nTileWidth, nTileHeight);
+					c.drawImage(spriteTiles, 3 * nTileSelWidth, 0 *nTileSelHeight, nTileSelWidth, nTileSelHeight,
+								x * nTileWidth - fTileOffsetX, y * nTileHeight - fTileOffsetY, nTileWidth, nTileHeight);
+					break;
+				default:
+					c.fillStyle = '#000000';
+					c.fillRect(x*nTileWidth - fTileOffsetX, y*nTileHeight - fTileOffsetY, nTileWidth, nTileHeight);
+					break;
+			}
+		}
+	}
+	
+	/*c.fillStyle = '#00ff00';
+	c.fillRect((fPlayerPosX - fOffsetX) * nTileWidth, 
+			   (fPlayerPosY - fOffsetY) * nTileHeight, 
+			   nTileWidth, nTileHeight);*/
+	c.drawImage(spriteMan, nDirModX * nTileSelWidth, nDirModY *nTileSelHeight, nTileSelWidth, nTileSelHeight,
+	           (fPlayerPosX - fOffsetX) * nTileWidth, (fPlayerPosY - fOffsetY) * nTileHeight, nTileWidth, nTileHeight);
+			   
+	
+	c.fillStyle = '#ffffff';
+	c.font = "10px Arial";
+	//c.fillText(fOffsetX, 10, 10);
+	//c.fillText(fOffsetY, 10, 20);
+	
+	KeySpWasPressed = KeySpPressed;
+}
+
+window.onload = function ()
+{
+	cc = document.getElementById("gc");
+	c = cc.getContext('2d');
+	
+	ScreenWidth = cc.width;
+	ScreenHeight = cc.height;
+	
+	OnUserCreate();
+	setInterval(OnUserUpdate, 1000/60);
+}
+</script>
+<img style="visibility: hidden" src="leveljario.png" id="leveljario"/>
+<img style="visibility: hidden" src="minijario.png"  id="minijario" />
+
+<br>
+
+<a href="https://github.com/OneLoneCoder/videos/blob/master/LICENSE ">Javidx9's LICENSE</a>
+
+</div>
+
+</body>
+</html>
