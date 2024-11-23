@@ -1,0 +1,49 @@
+body {
+	color: #ffffff;
+	font-family: Century Gothic, Sans-Serif;
+	font-weight: bold;
+	background-image: linear-gradient(to bottom right, #000000, #333333);
+}
+.mainbox {
+	margin: auto;
+	width: 800px;
+	max-width: 90%;
+	border: 1px solid #ccc !important;
+	border-radius: 16px;
+}
+.subbox {
+	margin: 1.5em;
+}
+.hl {
+	text-decoration: none;
+	font-weight: bold;
+}
+.hl:link {
+	color: #9cf;
+}
+.hl:active {
+	color: #7bf;
+}
+.hl:visited {
+	color: #5af;
+}
+.hl:hover {
+	color: #7bf;
+}
+.projectlist li {
+	margin-top: 0.4em;
+}
+.projectlist {
+	margin-right: 2.5em;
+}
+.thumb {
+	min-width: 100px;
+	max-width: 80%;
+	margin-top: 0.5em;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+.centext {
+	text-align: center;
+}

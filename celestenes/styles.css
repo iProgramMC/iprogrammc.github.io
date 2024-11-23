@@ -1,0 +1,64 @@
+body {
+	color: #ffffff;
+	font-family: Renogare, Century Gothic, Sans-Serif;
+	font-weight: 1;
+	font-size: 1.25em;
+	background-image: linear-gradient(to bottom, #000000, #333333);
+}
+.mainbox {
+	margin: auto;
+	width: 1000px;
+	max-width: 90%;
+	border: 1px solid #ccc !important;
+	border-radius: 16px;
+}
+.subbox {
+	margin: 1.5em;
+}
+.screenshot {
+	max-width: calc(50% - .5em);
+	margin-top: 1em;
+	object-fit: cover;
+	height: auto;
+}
+.images {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	margin: auto;
+}
+.title {
+	width: 768px;
+	max-width: 70%;
+	image-rendering: pixelated;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+.centext {
+	text-align: center;
+}
+.large {
+	font-size: 2em;
+}
+.goodlink {
+	text-decoration: none;
+}
+.goodlink:link {
+	color: #9cf;
+}
+.goodlink:active {
+	color: #7bf;
+}
+.goodlink:visited {
+	color: #5af;
+}
+.goodlink:hover {
+	color: #7bf;
+}
+.faqlist li {
+	margin-top: 0.4em;
+}
