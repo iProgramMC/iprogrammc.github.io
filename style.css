@@ -47,3 +47,7 @@ body {
 .centext {
 	text-align: center;
 }
+.hotmarker {
+	height: 1.5em;
+	display: inline-block;
+}
