@@ -1,0 +1,22 @@
+a {
+	text-decoration: none;
+	font-weight: bold;
+}
+a:link {
+	color: #9cf;
+}
+a:active {
+	color: #7bf;
+}
+a:visited {
+	color: #5af;
+}
+a:hover {
+	color: #7bf;
+}
+h1, h2, h3, h4 {
+	color: #ace;
+}
+img {
+	max-width: 100%;
+}
