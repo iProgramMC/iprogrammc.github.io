@@ -1,0 +1,200 @@
+<!-- This file was precompiled by iProgramInCpp's MarkdownBlogThing. -->
+<html>
+	<head>
+		<title>Drawing Variable Width Fonts Using CHR-ROM</title>
+		<link rel="stylesheet" type="text/css" href="../../style.css"> <!-- Root Style -->
+		<link rel="stylesheet" type="text/css" href="../style.css">    <!-- Blog Style -->
+	</head>
+	<body>
+		<h1 style="text-align: center">iProgramInCpp's Bunker</h1>
+		<table style="margin:auto">
+			<tr>
+				<td>
+					<a class="hl" href="/">Home</a> &bull;
+					<a class="hl" href="https://youtube.com/@iProgramInCpp">YouTube</a> &bull;
+					<a class="hl" href="https://github.com/iProgramMC">GitHub</a> &bull;
+					<a class="hl" href="https://discord.gg/DFTybYsKcg">Discord [Gamma64]</a> &bull;
+					<a class="hl" href="https://bsky.app/profile/iprogramincpp.com">Bluesky</a> &bull;
+					<a class="hl" href="../index.html">Ramblings</a>
+				</td>
+			</tr>
+		</table>
+		<hr>
+		<br>
+		<div class="mainbox"><div class="subbox">
+<h1>Drawing Variable Width Fonts using CHR-ROM</h1>
+
+<p>This is the first of a few articles detailing exactly what I have been doing to pull off certain tricks
+in CelesteNES.</p>
+
+<h2>Background</h2>
+
+<p>After a few days of thinking how I'd do the dialogs in this game, I realized that there is text that
+I might need to split up into several <em>dialog boxes</em>, which I found undesirable. So I started to look
+for ways I could, maybe, render variable width fonts.</p>
+
+<h2>Why not just use CHR-RAM?</h2>
+
+<p>The main reason I decided against using CHR-RAM is because it would leave less space available for the
+rest of the game. And I kind of need that space. Remember, Celeste (excluding Farewell) has about 500
+rooms (and that's just the normal chapters! I do not plan on recreating the B- or C-sides.)</p>
+
+<p>Most of PRG-ROM would be taken up by levels. Even if I managed to reach a 10% compression ratio on all
+the graphics (which is unlikely given that Celeste's graphics are actually pretty detailed), I'd <em>still</em>
+have a hard time fitting all that in.</p>
+
+<h2>Why not just use 8x8 characters?</h2>
+
+<p>I also decided against using a monospace 8x8 font because, well, the NES' tile resolution is <em>small</em>
+(only 32 tiles in a line), and the portrait would take up like 5 characters, as well as the edges which
+would be 2 characters each. Leaving me with only 25 characters per line. Some of Celeste's dialog uses
+more than that, and on both lines! And some has really long text on all three lines. Here's an example
+of the latter:
+<img src="images/celeste-long-text.png" alt="Madeline talking on the payphone to someone" title="" /></p>
+
+<p>See, 30, then 42, then 30 characters. I'd never be able to fit this using normal 8x8 fonts in a single
+dialog! Sure, I could split it into two, but that's no fun.</p>
+
+<h2>Celeste Mario's Zap &amp; Dash!</h2>
+
+<p><a href="https://www.romhacking.net/hacks/7915/">Celeste Mario's Zap &amp; Dash!</a> is a "ROM hack" of the original
+Super Mario Bros. 1. (Ok, it's pretty much a rewrite at this point, let's admit it.)</p>
+
+<p>One feature it includes is <em>dialog</em>. And you can guess what it does.</p>
+
+<p><img src="images/cmznd-vwf.png" alt="CMZND screenshot. Variable width fonts are being shown." title="" /></p>
+
+<p>That's right. It uses variable width fonts.</p>
+
+<p>Now, how exactly does it do this. You may have a couple ideas in mind.</p>
+
+<h3>CHR-RAM?</h3>
+
+<p>You might think it's CHR-RAM. Let's look at the beginning of the file in a hex editor:
+<code>
+000000: 4E 45 53 1A 10 10 52 00 00 00 00 00 00 00 00 00 80 | NES...R..........
+</code></p>
+
+<p>This is CMZND's iNES header. See <a href="https://www.nesdev.org/wiki/NES_2.0">the NESdev Wiki article</a> about
+it. You can immediately see that offset 5 (CHR-ROM size) is not zero. Therefore, this game has CHR ROM
+installed. You will also want to look at offset 11 (the CHR RAM size), and you'll see that it is zero.
+Therefore there is no CHR-RAM installed.</p>
+
+<h3>Sprites?!</h3>
+
+<p>Nope! The NES, notoriously, has an 8 sprite per scanline limit. So, obviously, you can't draw a whole
+dialog. (I'm actually constantly fighting this very limitation myself, but in other parts of the game!)</p>
+
+<p>If none of these, then what?</p>
+
+<h3>The Raster Tricks</h3>
+
+<p>Here is a screenshot of the Event Viewer in <a href="https://mesen.ca">Mesen</a>, with CMZND opened and a dialog
+being shown in-game.</p>
+
+<p><img src="images/cmznd-event-viewer.png" alt="Mesen Event Viewer" title="" /></p>
+
+<p>Notice all these blue writes next to the one I highlighted? Those update the <code>PPUADDR</code> register (<code>$2006</code>).
+Some of the writes above seem to have to do with the mapper, but I didn't look too deep into the MMC5
+mapper that it uses so I wouldn't know.</p>
+
+<p>The writes that you can see after the frame ended are only to update the HUD, from what I can tell.</p>
+
+<p>It constantly writes <code>$00</code> to <code>$5104</code> (Internal ExRAM mode) and <code>$AA</code> to <code>$5105</code> (Nametable Mapping).
+(See <a href="https://www.nesdev.org/wiki/MMC5">the NESdev Wiki article about MMC5</a>.)  I don't know why it isn't
+just configuring it once and screwing off, but I digress.</p>
+
+<p>The point is, the <code>PPUADDR</code> is updated every line during horizontal blank. (While rendering that actually
+does all sorts of things, but one of those is the coarse Y which this adjusts.)</p>
+
+<p>Here is another screenshot of the tile map at the moment when those scanlines are rendered.</p>
+
+<p><img src="images/cmznd-tilemap.png" alt="Mesen Tile Map Viewer" title="" /></p>
+
+<p>This is a binary counting pattern stretched along the Y axis.</p>
+
+<p>And if you couldn't guess, here's what the CHR bus for background rendering looks like during the dialog:</p>
+
+<p><img src="images/cmznd-tile-counting-pattern.png" alt="Mesen Tile Viewer showing a counting pattern" title="" /></p>
+
+<p>So, basically, it uses these tiles to render text that would otherwise be impossible on the NES without
+CHR-RAM. Neat!</p>
+
+<h2>Caveats</h2>
+
+<p>In <em>Celeste Mario's Zap &amp; Dash!</em>, the dialog is drawn to separate ExRAM, and switched to at the moment
+when the dialog is supposed to be drawn. My game does not have that. It has nowhere near the advancement
+level of MMC5, actually.</p>
+
+<p>Still, this was too cool to pass up, so I ended up borrowing the method for my own use.</p>
+
+<h2>How does it look in-game?</h2>
+
+<p><img src="images/celestenes-dialog.png" alt="Madeline talking to Granny, in CelesteNES" title="" /></p>
+
+<p>Like this! Ain't it nice?!</p>
+
+<p>Here's a screenshot of the event viewer:</p>
+
+<p><img src="images/celestenes-event-viewer.png" alt="Mesen Event Viewer showing CelesteNES dialog rendering process" title="" /></p>
+
+<p>It actually looks pretty different, however, the idea is still the same, so it counts. But what am
+I doing?</p>
+
+<p>Let's start with the differences:</p>
+
+<ul>
+<li><p>I use the split X/Y scroll method instead of overwriting PPUADDR. Because I can. And because of
+a game design quirk where sometimes, the level may be split vertically across two nametables (ok,
+really, it's just one nametable, but half of the level is on the top, and the other on the bottom).
+I want to override the Y scroll to the origin of the dialog, as well.</p></li>
+<li><p>I don't have ExRAM, so I simply push the dialog to unused nametable space. This makes the dialog
+routines considerably more complex since I will have to handle nametable wraparound.</p>
+
+<p>Case in point:
+<img src="images/celestenes-tilemap-viewer.png" alt="Mesen Tile Map Viewer showing stretched dialog text" title="" /></p></li>
+<li><p>The attribute table has been cleared to fully-white, so the text isn't colored. I <em>could</em> do that,
+but it'd be limited to rows, as I risk accidentally coloring other characters as well.</p></li>
+<li><p>I don't know if CMZND does this too, but I reschedule the IRQ a few lines after the dialog line
+finished rendering to fend off potential misalignments caused by DPCM read cycles. This is a real
+and visible problem now that ButterSoap, our music composer, has added DPCM samples to his cover
+of <em>First Steps</em>.  Yes, my tightly timed loops will be misaligned, but not so badly as to cause
+visible glitches.</p></li>
+<li><p>Obviously, I draw the text at the <em>top</em>, instead of the bottom, though I might add that feature
+in later. Chapter 3 of Celeste in particular uses dialog boxes on the bottom, because placing
+them above would obscure important parts of the story.</p></li>
+</ul>
+
+<p>The main principle is the same as in <em>Celeste Mario's Zap &amp; Dash!</em>, though.</p>
+
+<h2>Drawing</h2>
+
+<p>Ok, but how much space does this take up?</p>
+
+<p>Well, of course, one whole nametable. That much is clear. It also uses an extra 768 bytes of RAM,
+to store a 256X24 1bpp bitmap. Writes to this bitmap (e.g. when a letter appears) are mirrored
+to the specific nametable where the byte resides. (Yes, I really do write 8 bytes per 8x8 block of
+pixels updated)</p>
+
+<h2>A potential nicety?</h2>
+
+<p>Most of the space in my counting pattern is actually unused. That's because, for each line, I just
+scroll to the <em>top</em> of the tile. Therefore, the rest is never visible. I actually use this for the
+<code>$FF</code> tile - I can reuse it as a border, after clearing out most of the tile, leaving only the top
+filled in with pixels.</p>
+
+<p>However, because I can't control the top row of tiles, I'm not sure how useful this would actually
+be.</p>
+
+<h2>Conclusion</h2>
+
+<p>This nice raster trick allows me to use variable width/proportional fonts while using CHR ROM,
+allowing me to keep my (relatively) fast loading times and use as much PRG-ROM space for levels.</p>
+
+<p>There are <em>so many</em> limitations with the NES, but I'm trying to fight off each one of them to
+produce the best experience that I can.</p>
+			<hr>
+			<h5>This article was last modified on Monday, November 25, 2024, at 22:26:00. <a href="../index.html">Back to index</a></h5>
+		</div></div>
+	</body>
+</html>
