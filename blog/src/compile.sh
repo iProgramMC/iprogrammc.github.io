@@ -21,7 +21,7 @@ cp $IndexHeaderFile $Index
 
 # Tools
 MarkdownPl='perl ./scripts/Markdown.pl'
-for Article in $(ls -r $ArticlesDir/*); do
+for Article in $(ls -t $ArticlesDir/*); do
 	ArticleBase=$(basename -s .md $Article)
 	ArticleDest=$PostsBase/$ArticleBase.html
 	
