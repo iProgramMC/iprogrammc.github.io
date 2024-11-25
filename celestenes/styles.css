@@ -3,6 +3,7 @@ body {
 	font-family: Renogare, Century Gothic, Sans-Serif;
 	font-weight: 1;
 	font-size: 1.25em;
+	background-color: #000;
 	background-image: linear-gradient(to bottom, #000000, #333333);
 }
 .mainbox {

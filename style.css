@@ -2,6 +2,7 @@ body {
 	color: #ffffff;
 	font-family: Century Gothic, Sans-Serif;
 	font-weight: bold;
+	background-color: #000;
 	background-image: linear-gradient(to bottom right, #000000, #333333);
 }
 .mainbox {
