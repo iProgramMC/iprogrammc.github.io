@@ -1,4 +1,5 @@
 TITLE:Drawing Variable Width Fonts Using CHR-ROM
+DESCRIPTION:In this article, I describe how I (ab)use the NES PPU through a neat raster trick to render variable width fonts without giving up precious PRG-ROM space for CHR-RAM.
 # Drawing Variable Width Fonts using CHR-ROM
 
 This is the first of a few articles detailing exactly what I have been doing to pull off certain tricks

@@ -29,7 +29,7 @@ for Article in $(ls -t $ArticlesDir/*); do
 	
 	# Grep for the title, while skipping the TITLE: marker
 	ArticleTitle=$(grep 'TITLE:' $Article | tr -d '\n' | cut -b 7-)
-	ArticleDescr=$(grep 'DESCRIPTION:' $Article)
+	ArticleDescr=$(grep 'DESCRIPTION:' $Article | cut -b 13-)
 	
 	# Stat the article for the last mod time, then convert it to a string using date
 	ArticleLastModUnix=$(stat -c '%Y' $Article)
