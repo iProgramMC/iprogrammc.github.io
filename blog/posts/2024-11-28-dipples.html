@@ -1,0 +1,85 @@
+<!-- This file was precompiled by iProgramInCpp's MarkdownBlogThing. -->
+<html>
+	<head>
+		<title>How does CelesteNES manage palettes (DPLS)</title>
+		<link rel="stylesheet" type="text/css" href="../../style.css"> <!-- Root Style -->
+		<link rel="stylesheet" type="text/css" href="../style.css">    <!-- Blog Style -->
+		
+		<!-- Meta Data -->
+		<meta property="og:title" content="How does CelesteNES manage palettes (DPLS)"/>
+		<meta property="og:type" content="website"/>
+		<meta property="og:site_name" content="iProgramInCpp's Bunker"/>
+		<meta property="og:description" content=""/>
+		<meta property="og:url" content="https://iprogramincpp.com/blog/posts/XXX_POST_PATH_XXX.html"/>
+		<meta id="theme-meta" name="theme-color" content="#abcdff">
+	</head>
+	<body>
+		<h1 style="text-align: center">iProgramInCpp's Bunker</h1>
+		<table style="margin:auto">
+			<tr>
+				<td>
+					<a class="hl" href="/">Home</a> &bull;
+					<a class="hl" href="https://youtube.com/@iProgramInCpp">YouTube</a> &bull;
+					<a class="hl" href="https://github.com/iProgramMC">GitHub</a> &bull;
+					<a class="hl" href="https://discord.gg/DFTybYsKcg">Discord [Gamma64]</a> &bull;
+					<a class="hl" href="https://bsky.app/profile/iprogramincpp.com">Bluesky</a> &bull;
+					<a class="hl" href="../index.html">Ramblings</a>
+				</td>
+			</tr>
+		</table>
+		<hr>
+		<br>
+		<div class="mainbox"><div class="subbox">
+<h1>How does CelesteNES manage palettes (DPLS)</h1>
+
+<p>In this article I want to explain what I do to manage palettes within CelesteNES.
+Note that only <em>sprite</em> palettes are managed by DPLS, not <em>background</em> palettes.
+Those might be managed separately with a manual setting or something.</p>
+
+<h2>The problem</h2>
+
+<p>The situation was once quite simple.  There were four palettes loaded in at once:</p>
+
+<ul>
+<li>the player palette (beige, purple, and cyan)</li>
+<li>red</li>
+<li>green</li>
+<li>blue</li>
+</ul>
+
+<p>Obviously some sprites do <em>not</em> fit into these palettes. Examples include elevators (gray),
+keys (gold), and Granny (white, beige, and green).  Not to mention, dialogs come with their
+own problems which this also aims to solve.</p>
+
+<h2>Introducing DPLS</h2>
+
+<p>DPLS, a/k/a Dipples, a/k/a <em>Dynamic Palette Loading System</em>, is the palette manager within
+CelesteNES. As the name suggests, it manages sprite palettes dynamically. Here's how it works:</p>
+
+<ul>
+<li><p>The player's hair, and then each entity, requests a palette, through <code>gm_allocate_palette</code>.
+It may, or may not, be allocated. Remember, you can only have four sprite palettes on the NES,
+and the player's body occupies one slot, being hardcoded in unlike the rest.</p></li>
+<li><p>After the game loop ends, a backup copy of last frame's palettes is compared with the current
+list of palettes. If anything changes, the relevant NMI flag is set, and the NMI will upload
+the palette to the PPU properly.</p></li>
+<li><p>Finally, when the game loop begins, the current palette is copied to the backup, then the
+relevant palette allocation variables are cleared.</p></li>
+</ul>
+
+<p>The first screenshot with properly rendered keys: (they used to be green before I wrote this!)
+<img src="images/celestenes-key-golden.png" alt="Madeline dashing somewhere with a key to the right, rendered golden" title="" /></p>
+
+<h2>Conclusion</h2>
+
+<p>I know this article is shorter than the last one. There wasn't too much to explain, really.
+DPLS is a simple, yet versatile, system, that allows me to put entities with 2 types of palettes
+with no problems.</p>
+
+<p>It also allows me to make Madeline's hair pink in The Summit which I might do at some point
+after the first demo comes out. Hopefully.</p>
+			<hr>
+			<h5>This article was last modified on Thursday, November 28, 2024, at 23:15:30. <a href="../index.html">Back to index</a></h5>
+		</div></div>
+	</body>
+</html>
