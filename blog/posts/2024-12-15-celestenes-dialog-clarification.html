@@ -1,0 +1,177 @@
+<!-- This file was precompiled by iProgramInCpp's MarkdownBlogThing. -->
+<html>
+	<head>
+		<title>Clarification about the 25 November article "Drawing Variable Width Fonts Using CHR-ROM"</title>
+		<link rel="stylesheet" type="text/css" href="../../style.css"> <!-- Root Style -->
+		<link rel="stylesheet" type="text/css" href="../style.css">    <!-- Blog Style -->
+		
+		<!-- Meta Data -->
+		<meta property="og:title" content="Clarification about the 25 November article "Drawing Variable Width Fonts Using CHR-ROM""/>
+		<meta property="og:type" content="website"/>
+		<meta property="og:site_name" content="iProgramInCpp's Bunker"/>
+		<meta property="og:description" content="It seems I wasn't clear enough with the last article, so this article seeks to clear things up."/>
+		<meta property="og:url" content="https://iprogramincpp.com/blog/posts/XXX_POST_PATH_XXX.html"/>
+		<meta id="theme-meta" name="theme-color" content="#abcdff">
+	</head>
+	<body>
+		<h1 style="text-align: center">iProgramInCpp's Bunker</h1>
+		<table style="margin:auto">
+			<tr>
+				<td>
+					<a class="hl" href="/">Home</a> &bull;
+					<a class="hl" href="https://youtube.com/@iProgramInCpp">YouTube</a> &bull;
+					<a class="hl" href="https://github.com/iProgramMC">GitHub</a> &bull;
+					<a class="hl" href="https://discord.gg/DFTybYsKcg">Discord [Gamma64]</a> &bull;
+					<a class="hl" href="https://bsky.app/profile/iprogramincpp.com">Bluesky</a> &bull;
+					<a class="hl" href="../index.html">Ramblings</a>
+				</td>
+			</tr>
+		</table>
+		<hr>
+		<br>
+		<div class="mainbox"><div class="subbox">
+<h1>To Clarify Some Things</h1>
+
+<p>I was told by a fellow NES developer, <a href="https://github.com/kandowontu">kandowontu</a>, who you may know for his work
+on <a href="https://romhackplaza.org/homebrew/famidash-nes-kandowontu/"><em>Famidash</em></a> and <a href="https://www.romhacking.net/hacks/7285/"><em>StarFox EX</em></a>,
+that <a href="2024-11-25-celestenes-dialog-raster-tricks.html">my article about VWFs in CelesteNES</a> was
+not clear enough. So here is a post to clear things up.</p>
+
+<p>I would have made some explanatory images myself, but <a href="https://github.com/ADM228">alexmush</a> has helpfully made some
+himself, and has allowed me to use them in this article. Thanks!</p>
+
+<p>This is the image Kando sent, saying "<a href="2024-11-25-celestenes-dialog-raster-tricks.html">This article</a> summed up":</p>
+
+<p><img src="images/bad-owl-tutorial.jpg" alt="An image of a bad tutorial about drawing an owl" title="" /></p>
+
+<h2>What wasn't clear about the last article?</h2>
+
+<p>I mainly focused on the <em>raster trick</em> itself, which allows me to render a 256x24 bitmap on the screen, in three
+strips of 256x8. I didn't focus enough on how the tilemap I showed draws text.</p>
+
+<h2>A quick summary</h2>
+
+<p>The bitmap is stored in groups of 8x1 pixels (8 wide, 1 tall). 32 bytes make up a full row. The total bitmap is
+768 bytes in size. (Yes, I am using extra RAM, I wouldn't even dream of trying that on 2K of RAM!)</p>
+
+<p>Each 8x1 cluster of pixels <em>directly corresponds</em> to a tile in the nametable.  As such, with the tile map below,
+we can <em>directly</em> turn each bit from the bitmap into the actual bitmap shown on screen:</p>
+
+<p><img src="images/cmznd-tile-counting-pattern.png" alt="Mesen Tile Viewer showing a counting pattern" title="" /></p>
+
+<p>By quickly changing the scroll position <em>on every scanline</em>, we can show a different set of tiles each scanline,
+and show the bitmap in its original form, instead of an 8x1 stretched form.</p>
+
+<h2>A visual explanation.</h2>
+
+<p>These images have been made by <a href="https://github.com/ADM228">alexmush</a>, so thanks to him again!</p>
+
+<p>Now, take this image of the word "SEMISEA":</p>
+
+<p><img src="images/alex/0.png" alt="Image of pixelated text, saying &quot;Semisea&quot;" title="" /></p>
+
+<p>We can split it into 8x1 clusters, which I'll refer to as simply bytes. They're stored line by line, then byte by byte.</p>
+
+<p><img src="images/alex/1.png" alt="Fig. 1: Image of pixelated text, saying &quot;Semisea&quot;, but colors are overlaid on top to show the different bytes" title="" /></p>
+
+<p>Now, as I said earlier, these bytes correspond directly to tiles in the nametable, so here's the layout of tiles
+that we'll be using:</p>
+
+<p><img src="images/alex/7.png" alt="Fig. 2: Image of the same pixelated text, but stretched 8 times, to show the nametables" title="" /></p>
+
+<p>Our goal is to draw only the <em>top</em> of each tile. This is achievable by doing a cycle counted raster trick. (you know, the
+one I've been explaining here and in that last article)</p>
+
+<p>But first, let's just draw it without any kind of raster trick:</p>
+
+<p><img src="images/alex/2.png" alt="Fig. 1 but with the first row repeated and stretched" title="" /></p>
+
+<p>Yes, as you can see, only the first row was drawn, stretched by 8 times.</p>
+
+<p>The trick is to change the scroll position after drawing this row by cleverly programming the internal PPU registers
+(<a href="https://www.nesdev.org/wiki/PPU_scrolling#Split_X/Y_scroll">NESdev Wiki's reference on the subject</a>)
+to move to the next tile early. Let's do that for row 1, to move to row 2's graphics early:</p>
+
+<p><img src="images/alex/3.png" alt="Fig. 1 but with the first two rows drawn again, the second being stretched for 7 pixels" title="" /></p>
+
+<p>See, we're making progress. Let's do that again for the rest of the rows.</p>
+
+<p>Row 3:</p>
+
+<p><img src="images/alex/4.png" alt="Fig. 1 but row 3 is also drawn" title="" /></p>
+
+<p>Row 4:</p>
+
+<p><img src="images/alex/5.png" alt="Fig. 1 but row 3 is also drawn" title="" /></p>
+
+<p>And now, the rest of the rows.</p>
+
+<p><img src="images/alex/6.png" alt="Fig. 1 but row 3 is also drawn" title="" /></p>
+
+<p>In our scheme, each scanline gets its own row of tiles, so effectively, these are the tiles, if we don't apply any raster tricks.</p>
+
+<p><img src="images/alex/8.png" alt="Fig. 2 but with red lines every 8 pixels to show where we took pixels from" title="" /></p>
+
+<p>But we squish it down, to one eighth the size, using the raster trick described above. This erases most of the pixels, and only
+the pixels shown below are actually drawn.</p>
+
+<p><img src="images/alex/9.png" alt="Fig. 2 but with 1/8 the pixels, showing what was drawn" title="" /></p>
+
+<p>When we compress these rows together, we get:</p>
+
+<p><img src="images/alex/10.png" alt="Finally, the rendered image." title="" /></p>
+
+<p>Ta-da! The word has been drawn!</p>
+
+<h2>Drawing stuff to the bitmap</h2>
+
+<p>Let's say you wanted to place a pixel at the coordinates <code>(80, 14)</code>.  Remember that our bitmap is 256x24 in size, with 24 rows of
+32 8x1 clusters.  First, we locate the cluster that we want to modify.</p>
+
+<p>80 / 8 = 10, so the 10th byte is to be modified in row 14.
+To get the actual index, multiply the Y coordinate by the width, and add the X coordinate. So, we'll modify the byte at 14*32+10,
+or 458th byte.</p>
+
+<p>But that only tells us the cluster we need to modify, which bit do I modify? Simply take the X coordinate, modulo 8 (or AND 7),
+and that's the bit position you modify.</p>
+
+<p>If each tile in the tile map shown above were flipped (i.e. the counting pattern were to start on the <em>right</em>, rather than on the
+<em>left</em>, you'd have to modify bit 7-X instead.</p>
+
+<p>We can draw more than one pixel this way, though we will have to handle the case where we have to write to multiple bytes in that
+case.</p>
+
+<p>The variable width font looks like this, in memory:</p>
+
+<p><img src="images/yychr-vwf.png" alt="A screenshot of YY-CHR editing my font" title="" /></p>
+
+<p>(I have a script that mirrors all the bytes and calculates all characters' width, so I don't have to edit the flipped versions of
+the letters)</p>
+
+<p>Each character is stored as an 8x8 image, made up of eight 8x1 clusters. (similar to the ones we've been dealing with!) This is
+quite convenient for us. This means that, when we want to draw a character, we just draw eight 8x1 clusters, shifted left to the
+correct position. (they end up being moved <em>right</em> instead, because we draw the LSB on the left)</p>
+
+<p>Let's try to draw an 8x1 strip (<code>11101001</code> - <code>#..#.###</code>), to the screen, at the coordinates <code>(60, 10)</code>.</p>
+
+<p>First, we get the coordinates of the initial pixel: the index within the row is <code>7</code>, and the index within the bitmap is <code>10*24+7</code>,
+or <code>247</code>. Reading from these we can see that there is some data already written: <code>00000000 00000101</code> (these would be drawn in
+reverse, so <code>#.#..... ........</code>.</p>
+
+<p>Now, prepare the strip for drawing by shifting it by <code>X % 8</code> (in this case, <code>60 % 8</code> is <code>4</code>): <code>00001110 10010000</code>.</p>
+
+<p>My game actually <em>clears</em> the bits below, but I don't think I actually need to do that, so just pretend I'm not.</p>
+
+<p>Finally, OR the shifted strip with the bytes in question, to get: <code>00001110 10010101</code>, or <code>#.#.M..M .MMM....</code>. (for clarity, M means
+one, but newly placed)</p>
+
+<h2>Conclusion</h2>
+
+<p>I believe I've pretty much explained everything there is to explain, from how the 256x24 bitmap is drawn, to how pixels are placed
+on said bitmap. To see why I decided to do variable width fonts like this, why I decided to do proportional fonts in the first place,
+or where I got the idea from, <a href="2024-11-25-celestenes-dialog-raster-tricks.html">see the previous article on the topic</a>.</p>
+			<hr>
+			<h5>This article was last modified on Sunday, December 15, 2024, at 15:19:44. <a href="../index.html">Back to index</a></h5>
+		</div></div>
+	</body>
+</html>
