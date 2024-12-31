@@ -1,0 +1,130 @@
+<!-- This file was precompiled by iProgramInCpp's MarkdownBlogThing. -->
+<html>
+	<head>
+		<title>Happy New Year 2025!</title>
+		<link rel="stylesheet" type="text/css" href="../../style.css"> <!-- Root Style -->
+		<link rel="stylesheet" type="text/css" href="../style.css">    <!-- Blog Style -->
+		
+		<!-- Meta Data -->
+		<meta property="og:title" content="Happy New Year 2025!"/>
+		<meta property="og:type" content="website"/>
+		<meta property="og:site_name" content="iProgramInCpp's Bunker"/>
+		<meta property="og:description" content="iProgramInCpp wishes you a happy new year and talks about what he did in 2024."/>
+		<meta property="og:url" content="https://iprogramincpp.com/blog/posts/XXX_POST_PATH_XXX.html"/>
+		<meta id="theme-meta" name="theme-color" content="#abcdff">
+	</head>
+	<body>
+		<h1 style="text-align: center">iProgramInCpp's Bunker</h1>
+		<table style="margin:auto">
+			<tr>
+				<td>
+					<a class="hl" href="/">Home</a> &bull;
+					<a class="hl" href="https://youtube.com/@iProgramInCpp">YouTube</a> &bull;
+					<a class="hl" href="https://github.com/iProgramMC">GitHub</a> &bull;
+					<a class="hl" href="https://discord.gg/DFTybYsKcg">Discord [Gamma64]</a> &bull;
+					<a class="hl" href="https://bsky.app/profile/iprogramincpp.com">Bluesky</a> &bull;
+					<a class="hl" href="../index.html">Ramblings</a>
+				</td>
+			</tr>
+		</table>
+		<hr>
+		<br>
+		<div class="mainbox"><div class="subbox">
+<h1>Happy New Year 2025!</h1>
+
+<p>This year was incredibly chaotic and eventful. It's changed a lot, not only in the world, but also
+in my life.  I got to know a lot of people both online and in real life.</p>
+
+<p>I graduated high school this year.  Now in my first year of university, I'm liking it so far. But I
+know that it will become more and more stressful as time goes on.  For now, it's great!</p>
+
+<p>But here I mainly want to talk about what I achieved online, in the programming realm.</p>
+
+<p>Among other things, here are the projects I worked on the most this year:</p>
+
+<h2>Discord Messenger</h2>
+
+<p><a href="https://github.com/DiscordMessenger/dm">Discord Messenger</a> is my attempt at creating a Discord client
+for old Windows versions. The road to supporting versions earlier than Windows XP SP3 was rocky, to
+say the least.  I had to futz around with different MinGW versions, compiling OpenSSL from scratch
+to disable use of SSE/SSE2 instructions, that kinda thing. But it's come along really well.</p>
+
+<p>I started this project in early 2023, but it was extremely barebones and couldn't even connect to
+Discord's servers.  I put that project on hold in around February of 2023.</p>
+
+<p>Then in late February this year I picked it back up. Eventually, in April I showed the first previews
+to the Discord server for <a href="https://github.com/UnicordDev/Unicord">Unicord</a> (<a href="https://wamwoowam.co.uk">Wam</a>'s
+Discord client for UWP). Finally, in May, I published the source code and continued improving the client.</p>
+
+<p><img src="images/discord-messenger-xp.png" alt="Discord Messenger running on Windows XP" title="" /></p>
+
+<h2>Boron</h2>
+
+<p><a href="https://github.com/iProgramMC/Boron">Link to the operating system project</a></p>
+
+<p>Well, I didn't start this one in 2024, but I made quite a lot of progress!  Still, nowhere close to
+having a usable experience.  I got demotivated too early, so I started getting sidetracked.</p>
+
+<p>In 2023, Boron had the basics of the kernel core (<code>Ke</code>), and not much more.  Last New Year's Eve,
+I decided to try to recreate NanoShell's Fireworks application, but with a twist: each particle is
+a single thread.</p>
+
+<p>Sadly, I couldn't finish hunting down all the bugs by the turn of the year, but afterwards I had it
+working nicely.  It tests the following:</p>
+
+<ul>
+<li>load balancing (I dubbed this work stealing, surely this isn't unique though)</li>
+<li>thread scheduling</li>
+<li>out of memory conditions (Yes, I had to handle those to keep the test running!)</li>
+</ul>
+
+<p>Come to think of it, this test found bugs all the way until <strong>September</strong> of this year! (I fixed that
+bug in <a href="https://github.com/iProgramMC/Boron/commit/aebb61e70d768e3ad34554160119acb98e7de535">this commit</a>)</p>
+
+<p>Since then, several people have used my test for their own projects, and probably found bugs as well!</p>
+
+<p>Here is a list of ports to other people's OSes:</p>
+
+<ul>
+<li><a href="https://github.com/xrarch/mintia2/tree/c5552419a9f1841921f6fcfc0c3680e78c45f608/OS/Executive/Fwt">My port to MINTIA</a></li>
+<li><a href="https://github.com/oberrow/fireworks">Oberrow's port to Linux</a></li>
+<li><a href="https://github.com/OBOS-dev/obos/blob/8f6e8efd57eb007febde7d78304972fea7ef0bc6/src/drivers/test_driver/fireworks.c">Oberrow's port to OBOS</a></li>
+<li><a href="https://github.com/ilmmatias/palladium/blob/bb65305e67dcf591980824fcd405fa540b696fd1/src/kernel/ke/entry.c">ilmmatias' port</a></li>
+</ul>
+
+<h2>Celeste NES</h2>
+
+<p>The one I'm currently working on!</p>
+
+<p>I started CelesteNES on September 12th, out of boredom. I was demotivated from working on Boron because
+I felt overwhelmed by the vast amounts of code I'd need to write for the memory manager, and felt I had
+to take a break. </p>
+
+<p><a href="/celestenes">See more here.</a></p>
+
+<p>Currently I've pretty much finished the implementation for Chapter 1. (only need to implement the falling
+blocks, but everything else I've implemented!)  I'm now working on Chapter 2.  Hopefully I can get the
+first demo out by January 25th, that's my goal.</p>
+
+<p>Honestly, it wasn't that difficult to get used to writing 6502 assembly, and it sure is difficult to find
+bugs, but the technology we have now is amazing. <a href="https://github.com/SourMesen/Mesen2">Mesen</a> is such a
+good emulator, I wouldn't give it up for pretty much anything.  The killer feature in my opinion is the
+<strong>step back</strong> feature (you can step back through code, for example, if you get thrown in a sea of undocumented
+opcodes, you can use the step back feature to go back to the previous instruction which threw you there.
+I'm going to miss this feature going back to the rest of my projects!</p>
+
+<p>Have a screenshot of Chapter 2 to hold you over:</p>
+
+<p><img src="images/celestenes-chapter-2-preview.png" alt="Preview of CelesteNES Chapter 2" title="" /></p>
+
+<h2>Conclusion</h2>
+
+<p>These projects are the latest expositions of my skill in the art of programming. And 2025 will be even better!
+I don't know what I'll work on next, but we'll see.</p>
+
+<p>Happy new year, everyone! Let's enjoy the rest of the holidays!</p>
+			<hr>
+			<h5>This article was last modified on Tuesday, December 31, 2024, at 22:53:51. <a href="../index.html">Back to index</a></h5>
+		</div></div>
+	</body>
+</html>
