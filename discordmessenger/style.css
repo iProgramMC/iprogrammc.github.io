@@ -1,0 +1,202 @@
+.body {
+	position: absolute;
+	left: 50%;
+	margin-left: -380px;
+	width: 760px;
+}
+
+.innertopbar {
+	width: 760px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0;
+}
+
+.topbartop {
+	width: 100%;
+	border-spacing: 0px;
+	padding: 0;
+}
+
+.top13px: {
+	position: relative;
+	top: 13px;
+}
+
+.topmostbar {
+	width: 100%;
+	height: 55px;
+	border-spacing: 0px;
+	padding: 0;
+	table-layout: fixed;
+	border-collapse: collapse;
+}
+
+.collapseborder {
+	border-collapse: collapse;
+}
+
+.totaltall {
+	height: 100%;
+}
+
+.topbarbg {
+	background-color: #6766CC;
+	height: 29px;
+}
+
+.topbar {
+	padding: 0;
+}
+
+.topbarL {
+	margin-right: 10px;
+}
+
+.topbarR {
+	margin-left: 10px;
+}
+
+html * {
+	font-family: Arial, Sans-Serif;
+}
+
+.blurb {
+	font-size: 0.9em;
+}
+
+.lightb {
+	font-size: 0.9em;
+	color: #888;
+}
+
+.light {
+	font-size: 0.8em;
+	color: #888;
+}
+
+.headerlink {
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 0.9em;
+	margin-left: 2px;
+	margin-right: 2px;
+	padding-left: 2px;
+	padding-right: 2px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.x {
+	text-align: center;
+}
+
+.headerlink2 {
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 0.9em;
+	margin-left: 2px;
+	margin-right: 2px;
+	padding-left: 2px;
+	padding-right: 2px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	color: #FFF;
+}
+
+.headerlink:link {
+	color: #FFF;
+}
+
+.headerlink:active {
+	color: #DDD;
+}
+
+.headerlink:hover {
+	background-color: #2E317E;
+	color: #FFF;
+}
+
+.headerlink:visited {
+	color: #EEE;
+}
+
+.better {
+	font-size: 0.9em;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.better2 {
+	font-size: 1em;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.better:link {
+	color: #473FD3;
+}
+
+.better:active {
+	color: #06007A;
+}
+
+.better:hover {
+	color: #362AE0;
+}
+
+.better:visited {
+	color: #665CF2;
+}
+
+.better2:link {
+	color: #473FD3;
+}
+
+.better2:active {
+	color: #06007A;
+}
+
+.better2:hover {
+	color: #362AE0;
+}
+
+.better2:visited {
+	color: #665CF2;
+}
+
+.bottombar {
+	font-size: 0.8em;
+}
+
+.download {
+	background: linear-gradient(#B0B4E1, #6666CC 10%, #6666CC 90%, #4B4D76);
+	background-color: #6666CC;
+	background-image: url("images/download-fallback.png");
+	background-repeat: repeat-x;
+	background-size: 100% 100%;
+	color: #FFF;
+	font-size: 0.9em;
+	font-weight: bold;
+	padding: 12px 42px 12px 42px;
+	height: 16px; /* massive hack -- IE5.5 ignores padding if this isn't set, and 16px works in MSEdge */
+	display: inline-block;
+	text-decoration: none;
+	border: 1px #4B4D76 solid;
+}
+
+.download:hover {
+	background: linear-gradient(#B0B4E1, #6666CC 10%, #6666CC 90%, #4B4D76);
+	background-color: #5555BB;
+	background-image: url("images/download-fallback.png");
+	color: #FFF;
+}
+
+.download:active {
+	background: linear-gradient(#B0B4E1, #6666CC 10%, #6666CC 90%, #4B4D76);
+	background-color: #5555BB;
+	background-image: url("images/download-fallback2.png"), url("images/download-fallback.png");
+	color: #EEE;
+}
+
+
