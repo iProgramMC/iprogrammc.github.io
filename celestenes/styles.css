@@ -16,6 +16,10 @@ body {
 .subbox {
 	margin: 1.5em;
 }
+.quote {
+	font-size: 0.9em;
+	font-style: italic;
+}
 .screenshot {
 	max-width: calc(50% - .5em);
 	margin-top: 1em;
