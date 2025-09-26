@@ -137,22 +137,21 @@ CRTDLL specific initialization that happens before your main function.</p>
 <p>Simulating <code>_beginthreadex</code> in terms of <code>_beginthread</code> (CRT's old thread creation function) is also not trivial,
 because the parameters differ. Let's look at the function prototypes:</p>
 
-<p>```
-uintptr<em>t _beginthread(
-   void( _</em>cdecl *start<em>address )( void * ),
-   unsigned stack</em>size,
+<pre><code>uintptr_t _beginthread(
+   void( __cdecl *start_address )( void * ),
+   unsigned stack_size,
    void *arglist
-);</p>
+);
 
-<p>uintptr<em>t _beginthreadex(
+uintptr_t _beginthreadex(
    void *security,
-   unsigned stack</em>size,
-   unsigned ( <em>_stdcall *start</em>address )( void * ),
+   unsigned stack_size,
+   unsigned ( __stdcall *start_address )( void * ),
    void *arglist,
    unsigned initflag,
    unsigned *thrdaddr
 );
-```</p>
+</code></pre>
 
 <p>Pretty different, huh? Not only that, the return value is different too!
 - With <code>_beginthreadex</code>, you get a full <code>HANDLE</code> that you can close (to detach the thread), wait on, etc. Also,
@@ -251,7 +250,7 @@ And I am especially satisfied when old computers do new things thought impossibl
 
 <p><strong>Do not take my "age gap" comment out of context.</strong></p>
 			<hr>
-			<h5>This article was last modified on Friday, September 26, 2025, at 18:08:50. <a href="../index.html">Back to index</a></h5>
+			<h5>This article was last modified on Friday, September 26, 2025, at 18:13:53. <a href="../index.html">Back to index</a></h5>
 		</div></div>
 	</body>
 </html>

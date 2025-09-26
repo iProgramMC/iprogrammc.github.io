@@ -107,22 +107,20 @@ CRTDLL specific initialization that happens before your main function.
 Simulating `_beginthreadex` in terms of `_beginthread` (CRT's old thread creation function) is also not trivial,
 because the parameters differ. Let's look at the function prototypes:
 
-```
-uintptr_t _beginthread(
-   void( __cdecl *start_address )( void * ),
-   unsigned stack_size,
-   void *arglist
-);
-
-uintptr_t _beginthreadex(
-   void *security,
-   unsigned stack_size,
-   unsigned ( __stdcall *start_address )( void * ),
-   void *arglist,
-   unsigned initflag,
-   unsigned *thrdaddr
-);
-```
+    uintptr_t _beginthread(
+       void( __cdecl *start_address )( void * ),
+       unsigned stack_size,
+       void *arglist
+    );
+    
+    uintptr_t _beginthreadex(
+       void *security,
+       unsigned stack_size,
+       unsigned ( __stdcall *start_address )( void * ),
+       void *arglist,
+       unsigned initflag,
+       unsigned *thrdaddr
+    );
 
 Pretty different, huh? Not only that, the return value is different too!
 - With `_beginthreadex`, you get a full `HANDLE` that you can close (to detach the thread), wait on, etc. Also,
