@@ -128,7 +128,7 @@ UTF-8 counterparts.</p>
 
 <p>One more thing: <code>GetDiskFreeSpaceExA</code> does not exist on Windows 95, so don't use the <code>do_space</code> function.</p>
 
-<h3>Missing _beginthreadex and _endthreadex`</h3>
+<h3>Missing _beginthreadex and _endthreadex</h3>
 
 <p>As it turns out, there are two MSVCRT dependencies in DiscordMessenger and OpenSSL that I had missed:
 <code>_beginthreadex</code> and <code>_endthreadex</code>. It is not as simple as calling <code>CreateThread</code>, and that's because there is
@@ -187,7 +187,7 @@ configured it to use the system paths for this version)</p>
 <h3>Standing on the shoulders of giants</h3>
 
 <p>Well, that giant is... me from a few months ago! But of course, all of my <em>current</em> work relies on my past
-research work, which was described in the <a href="previous article">2025-03-30-discord-on-nt-3-1.html</a>. Give that a
+research work, which was described in the <a href="2025-03-30-discord-on-nt-3-1.html">previous article</a>. Give that a
 read if you are interested in the history of Discord Messenger ports for some reason.</p>
 
 <h3>What about Win32s (again)?</h3>
@@ -202,10 +202,10 @@ and actually get DM working on Win32s.</p>
 <p>Unfortunately, I will not be the one to try doing the Win32s port, but you're free to if you can glean anything
 whatsoever from this article!</p>
 
-<p>Additionally, some of the limitations still stand:
-- 16MB RAM limit, so you will need to unload channels sooner or load fewer images (or none at all!)</p>
+<p>Additionally, some of the limitations still stand:</p>
 
 <ul>
+<li><p>16MB RAM limit, so you will need to unload channels sooner or load fewer images (or none at all!)</p></li>
 <li><p>Global limit of about 65K handles</p></li>
 <li><p>16-bit networking support is kind of bad</p></li>
 <li><p>You're only going to be targeting 1 additional version of Windows, that being Windows 3.11 for Workgroups.
@@ -250,7 +250,7 @@ And I am especially satisfied when old computers do new things thought impossibl
 
 <p><strong>Do not take my "age gap" comment out of context.</strong></p>
 			<hr>
-			<h5>This article was last modified on Friday, September 26, 2025, at 18:13:53. <a href="../index.html">Back to index</a></h5>
+			<h5>This article was last modified on Saturday, September 27, 2025, at 16:21:50. <a href="../index.html">Back to index</a></h5>
 		</div></div>
 	</body>
 </html>

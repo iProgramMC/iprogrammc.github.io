@@ -98,7 +98,7 @@ I also had to disable use of `_rand_s`, because it doesn't exist in CRTDLL.
 
 One more thing: `GetDiskFreeSpaceExA` does not exist on Windows 95, so don't use the `do_space` function.
 
-### Missing _beginthreadex and _endthreadex`
+### Missing _beginthreadex and _endthreadex
 
 As it turns out, there are two MSVCRT dependencies in DiscordMessenger and OpenSSL that I had missed:
 `_beginthreadex` and `_endthreadex`. It is not as simple as calling `CreateThread`, and that's because there is
@@ -155,7 +155,7 @@ configured it to use the system paths for this version)
 ### Standing on the shoulders of giants
 
 Well, that giant is... me from a few months ago! But of course, all of my *current* work relies on my past
-research work, which was described in the [2025-03-30-discord-on-nt-3-1.html](previous article). Give that a
+research work, which was described in the [previous article](2025-03-30-discord-on-nt-3-1.html). Give that a
 read if you are interested in the history of Discord Messenger ports for some reason.
 
 ### What about Win32s (again)?
@@ -171,6 +171,7 @@ Unfortunately, I will not be the one to try doing the Win32s port, but you're fr
 whatsoever from this article!
 
 Additionally, some of the limitations still stand:
+
 - 16MB RAM limit, so you will need to unload channels sooner or load fewer images (or none at all!)
 
 - Global limit of about 65K handles
