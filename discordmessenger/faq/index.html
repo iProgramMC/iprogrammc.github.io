@@ -92,36 +92,66 @@
 							<h3>I get a "0xC000001D" / Illegal operation error from LIBCRYPT.DLL or libcrypto-3.dll when running Discord Messenger!</h3>
 							
 							<p>
-								You are getting this error because <b>your CPU is too old</b>. Discord Messenger currently requires a <b>Pentium Pro</b>
-								or <b>Pentium 2</b> CPU to run.
+								You are getting this error because <b>your CPU is too old</b>. Discord Messenger currently requires at least a <b>Pentium</b> CPU to run.
 							</p>
 							<p>
-								This will be fixed in the next build.
+								Or, you might be using an older version.  Make sure you're using version 1.10 or newer!
+							</p>
+						</div>
+						<div class="blurb">
+							<h3>I get a crash when running this in Windows 2000 with Blackwingcat's Extended Kernel!</h3>
+							
+							<p>
+								Uninstall the Extended Kernel, or <a href="https://nightly.link/DiscordMessenger/dm/workflows/build/master">use the latest nightly</a>.
+								This is a bug with the Extended Kernel. I've contacted the original developer, but got no response.
+							</p>
+							<p>
+								Technical details: for some reason, a system DLL inside the Extended Kernel is trying to <b>write</b> to the window
+								class string pointer passed into <b>CreateWindow</b>, which is
+								<a href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createwindowW">clearly marked as <b>const</b> (er, <b>LPCTSTR</b>, actually)</a>,
+								but some DLL is trying to write to it anyway, causing a crash.
+							</p>
+							<p>
+								This will be worked around in the next build.
+							</p>
+						</div>
+						<div class="blurb">
+							<h3>I get a crash error on my modified Windows 10/11 install</h3>
+							
+							<p>
+								It depends! It could be Discord Messenger's fault... or it could be the mod maker's fault. I can usually recognize when it's my fault and when it's not.
+								<b>Try uninstalling your mods</b>, then progressively reinstalling, to figure out what broke Discord Messenger. Then
+								<a href="https://github.com/DiscordMessenger/dm/issues">tell me</a> about it!
+							</p>
+							<p>
+								For posterity, <b>only official, unmodified, and non-beta releases of Windows</b> are supported by this application. I cannot possibly guarantee
+								that whatever mods you are using won't cause a crash inside the app.
 							</p>
 						</div>
 						<div class="blurb">
 							<h3>The MSVCP140.dll file is missing!</h3>
 							
-							You are getting this error because you did not install the Microsoft Visual C++ 2015 Redistributable (x86).  Make sure
-							to have the x86 version installed, the x64 version will not make Discord Messenger work.
+							You are getting this error because you did not install the <b>Microsoft Visual C++ 2015 Redistributable (x86)</b>.  Make sure
+							to have the <b>x86</b> version installed, the <b>x64</b> version will not make Discord Messenger work.
 						</div>
 						<div class="blurb">
 							<h3>I get some error about the NtCreateFile API missing, and this error shouldn't appear because it's specific to the Lan Manager</h3>
 							
 							<p>
-								This is a localization bug. In actuality it's most likely trying to tell you that MSVCP140.dll is missing, see the above question for a fix
+								This is a localization bug. In actuality it's most likely trying to tell you that MSVCP140.dll is missing, see the above question for a fix.
 							</p>
 							<p>
-								This string appears because STATUS_OPEN_FAILED (0xC0000136) is exactly next to STATUS_DLL_NOT_FOUND (0xC0000135) which is the actual error
+								This string appears because <b>STATUS_OPEN_FAILED</b> (0xC0000136) is exactly next to <b>STATUS_DLL_NOT_FOUND</b> (0xC0000135) which is the actual error
 								reported, and the localizers made a mistake and accidentally swapped or shifted the actual error strings.
 							</p>
 						</div>
 						<div class="blurb">
-							<h3>Where's your "Purplecord" thing? Also what is it</h3>
+							<h3>Where's your "Purplecord" thing? Also what is it?</h3>
 							
-							<p>It's coming soon!</p>
-							
-							<p>It is an attempt to write a Discord client for iOS 3 based on the research performed for Discord Messenger. Currently it is not even in a functionable state.</p>
+							<p>
+								<a href="https://github.com/DiscordMessenger/Purplecord"><b>Purplecord</b></a> is an attempt to write a Discord client for iOS 3 based on the
+								research performed for Discord Messenger. Currently it is in a functionable state, but lacking many features.
+							</p>
 						</div>
 						<div class="blurb">
 							<h3>You are not logged in to Discord Messenger</h3>
@@ -155,12 +185,13 @@
 							<p>
 								Stop right there.  I am developing this project in my <b>free time</b>, therefore I have no obligation to fix any of the bugs
 								that this client has.  I will most likely fix those bugs at some point, but <b>only when I have time for this project</b>.
-								Keep in mind that I am juggling several other projects, as well as education and a job, so I don't always have time for this
+								Keep in mind that I am juggling several other projects, as well as studies and a job, so I don't always have time for this
 								project!
 							</p>
 							<p>
-								You use this client <b>at your own risk</b>, therefore, do not blame me (iProgramInCpp) for any issues that appear with your account.
-								You have <b>full ownership</b> of your account, so make the correct decision!
+								You use this client <b>at your own risk</b>, therefore, you bear the full consequences of your decisions, so don't blame me
+								(iProgramInCpp) for any issues that appear with your account. You have <b>full ownership</b> of your account, so pick the
+								correct decision for you!
 							</p>
 						</div>
 					</td>
