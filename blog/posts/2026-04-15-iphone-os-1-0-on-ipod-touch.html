@@ -152,7 +152,8 @@
 
 <p>First, do a backup of the <code>/private/var</code> directory. You will need to do this, because we're about to shrink the <code>/var</code> partition.  Use the following command:</p>
 
-<p>/usr/bin/tar -cf /private.tar --preserve /private/var</p>
+<pre><code>/usr/bin/tar -cf /private.tar --preserve /private/var
+</code></pre>
 
 <p>You can optionally save it somewhere, but it isn't required.</p>
 
@@ -177,22 +178,22 @@ Offset: 0       Signature: 0xAA55
      Starting       Ending
  #: id  cyl  hd sec -  cyl  hd sec [     start -       size]
 ------------------------------------------------------------------------
- 1: AF    0   1   1 - 1023 254  63 [    63 -     153600] HFS+
- 2: AF 1023 254  63 - 1023 254  63 [    153720 -    3657465] HFS+
- 3: AF 1023 254  63 - 1023 254  63 [   3811185 -     153600] HFS+
- 4: 00    0   0   0 -    0   0   0 [     0 -      0] unused
+ 1: AF    0   1   1 - 1023 254  63 [        63 -      76800] HFS+
+ 2: AF 1023 254  63 - 1023 254  63 [     76923 -    3887982] HFS+
+ 3: 00    0   0   0 -    0   0   0 [         0 -          0] unused
+ 4: 00    0   0   0 -    0   0   0 [         0 -          0] unused
 
     16GB iPod touch:
-Disk: /dev/disk0    geometry: 983/64/63 [3964928 sectors]
+Disk: /dev/disk0        geometry: 983/64/63 [3964928 sectors]
 Sector size: 4096 bytes
 Offset: 0       Signature: 0xAA55
-    Starting       Ending
-#: id  cyl  hd sec -  cyl  hd sec [     start -       size]
+         Starting       Ending
+ #: id  cyl  hd sec -  cyl  hd sec [     start -       size]
 ------------------------------------------------------------------------
-1: AF    0   1   1 - 1023 254  63 [    63 -      76800] HFS+
-2: AF 1023 254  63 - 1023 254  63 [     76863 -    3811059] HFS+
-3: AF 1023 254  63 - 1023 254  63 [   3887922 -      77006] HFS+
-4: 00    0   0   0 -    0   0   0 [     0 -      0] unused
+ 1: AF    0   1   1 - 1023 254  63 [        63 -      76800] HFS+
+ 2: AF 1023 254  63 - 1023 254  63 [     76923 -    3887982] HFS+
+ 3: 00    0   0   0 -    0   0   0 [         0 -          0] unused
+ 4: 00    0   0   0 -    0   0   0 [         0 -          0] unused
 </code></pre>
 
 <p><strong>WARNING</strong>: Do not touch partition 1, else you will need to restore and start over.  This is the rootfs of your iPhone OS 1.1.x install.</p>
@@ -228,7 +229,7 @@ Offset: 0       Signature: 0xAA55
 <p>And now, restore the backup you made earlier:</p>
 
 <pre><code>/usr/sbin/newfs_hfs /dev/disk0s2
-/usr/sbin/mount -t hfs /dev/disk0s2 /private/var
+/sbin/mount -t hfs /dev/disk0s2 /private/var
 chdir /private/var
 /usr/bin/tar -xvf /private.tar
 /bin/ls /private/var/private/var
@@ -272,7 +273,7 @@ chdir /private/var
 
 <p>Then, run a check to fix up the file system:</p>
 
-<pre><code>/usr/sbin/fsck_hfs /dev/disk0s3
+<pre><code>/usr/sbin/fsck_hfs /dev/rdisk0s3
 </code></pre>
 
 <p>You should see this:</p>
@@ -316,6 +317,11 @@ chdir /private/var
     /mnt_s3/System/Library/Caches/com.apple.kernelcaches/kernelcache.s5l8900xrb
 </code></pre>
 
+<p>Finally:</p>
+
+<pre><code>/usr/sbin/umount /mnt_s3
+</code></pre>
+
 <h2>The final stretch</h2>
 
 <p>To run the new OS install, perform the following commands:</p>
@@ -350,7 +356,7 @@ cmd fsboot
 <img src="images/ipod-touch-102-activation.jpg" alt="irl shot of iPhone OS 1.0.2 on iPod touch" title="" />
 <img src="images/ipod-touch-102-settings.jpg" alt="irl shot of iPhone OS 1.0.2 on iPod touch" title="" /></p>
 			<hr>
-			<h5>This article was last modified on Wednesday, April 15, 2026, at 14:47:00. <a href="../index.html">Back to index</a></h5>
+			<h5>This article was last modified on Wednesday, April 15, 2026, at 16:05:12. <a href="../index.html">Back to index</a></h5>
 		</div></div>
 	</body>
 </html>

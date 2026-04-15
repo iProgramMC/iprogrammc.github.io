@@ -115,8 +115,7 @@ Install the binaries to `/usr/sbin`, then chmod them to give them the executable
 
 First, do a backup of the `/private/var` directory. You will need to do this, because we're about to shrink the `/var` partition.  Use the following command:
 
-/usr/bin/tar -cf /private.tar --preserve /private/var
-
+    /usr/bin/tar -cf /private.tar --preserve /private/var
 
 You can optionally save it somewhere, but it isn't required.
 
@@ -140,22 +139,22 @@ Run the `print` command inside `fdisk`. Your disk geometry should look something
          Starting       Ending
      #: id  cyl  hd sec -  cyl  hd sec [     start -       size]
     ------------------------------------------------------------------------
-     1: AF    0   1   1 - 1023 254  63 [    63 -     153600] HFS+
-     2: AF 1023 254  63 - 1023 254  63 [    153720 -    3657465] HFS+
-     3: AF 1023 254  63 - 1023 254  63 [   3811185 -     153600] HFS+
-     4: 00    0   0   0 -    0   0   0 [     0 -      0] unused
+     1: AF    0   1   1 - 1023 254  63 [        63 -      76800] HFS+
+     2: AF 1023 254  63 - 1023 254  63 [     76923 -    3887982] HFS+
+     3: 00    0   0   0 -    0   0   0 [         0 -          0] unused
+     4: 00    0   0   0 -    0   0   0 [         0 -          0] unused
     
         16GB iPod touch:
-    Disk: /dev/disk0    geometry: 983/64/63 [3964928 sectors]
+    Disk: /dev/disk0        geometry: 983/64/63 [3964928 sectors]
     Sector size: 4096 bytes
     Offset: 0       Signature: 0xAA55
-        Starting       Ending
-    #: id  cyl  hd sec -  cyl  hd sec [     start -       size]
+             Starting       Ending
+     #: id  cyl  hd sec -  cyl  hd sec [     start -       size]
     ------------------------------------------------------------------------
-    1: AF    0   1   1 - 1023 254  63 [    63 -      76800] HFS+
-    2: AF 1023 254  63 - 1023 254  63 [     76863 -    3811059] HFS+
-    3: AF 1023 254  63 - 1023 254  63 [   3887922 -      77006] HFS+
-    4: 00    0   0   0 -    0   0   0 [     0 -      0] unused
+     1: AF    0   1   1 - 1023 254  63 [        63 -      76800] HFS+
+     2: AF 1023 254  63 - 1023 254  63 [     76923 -    3887982] HFS+
+     3: 00    0   0   0 -    0   0   0 [         0 -          0] unused
+     4: 00    0   0   0 -    0   0   0 [         0 -          0] unused
 
 
 **WARNING**: Do not touch partition 1, else you will need to restore and start over.  This is the rootfs of your iPhone OS 1.1.x install.
@@ -188,7 +187,7 @@ If it does show up, you'll need to move it back:
 And now, restore the backup you made earlier:
 
     /usr/sbin/newfs_hfs /dev/disk0s2
-    /usr/sbin/mount -t hfs /dev/disk0s2 /private/var
+    /sbin/mount -t hfs /dev/disk0s2 /private/var
     chdir /private/var
     /usr/bin/tar -xvf /private.tar
     /bin/ls /private/var/private/var
@@ -228,7 +227,7 @@ This will put a valid HFS+ image on your iPod touch.  Note that we sweep it with
 
 Then, run a check to fix up the file system:
 
-    /usr/sbin/fsck_hfs /dev/disk0s3
+    /usr/sbin/fsck_hfs /dev/rdisk0s3
 
 You should see this:
 
@@ -268,6 +267,10 @@ Then, you will need to **delete** the kernelcaches it comes with, and copy the 1
     
     /bin/cp /System/Library/Caches/com.apple.kernelcaches/kernelcache.s5l8900xrb \
         /mnt_s3/System/Library/Caches/com.apple.kernelcaches/kernelcache.s5l8900xrb
+
+Finally:
+
+    /usr/sbin/umount /mnt_s3
 
 ## The final stretch
 
