@@ -53,7 +53,7 @@
 <li>You cannot adjust the brightness. Only auto-brightness works</li>
 <li>Obviously, cellular functions and the camera won't work</li>
 <li>Just about the only actual feature that works is Wi-Fi, and that one only barely</li>
-<li>iPhone OS 1.0.2 is completely useless in 2026</li>
+<li>iPhone OS 1.0.2 is completely useless given these circumstances</li>
 </ul>
 
 <h2>First attempt</h2>
@@ -129,21 +129,20 @@
 
 <p>Additionally you will need a copy of <code>umount</code>, <code>sync</code>, and <code>dd</code>.  These don't come with any ramdisks I checked, so I had to extract them from a prototype iPhone OS restore image.  For legal reasons, I can't link you to one, but you can find it easily.  You will <em>need</em> to use <code>umount</code> during this process.</p>
 
-<p>You can use <code>xpwntool</code> to extract the raw ramdisk from its container:
-<code>
-xpwntool 022-3655-1.dmg extracted.dmg
-</code></p>
+<p>You can use <code>xpwntool</code> to extract the raw ramdisk from its container:</p>
 
-<p>Install the binaries to <code>/usr/sbin</code>, then chmod them to give them the executable flag:
-<code>
-/bin/chmod +x /usr/sbin/fdisk
+<p>xpwntool 022-3655-1.dmg extracted.dmg</p>
+
+<p>Install the binaries to <code>/usr/sbin</code>, then chmod them to give them the executable flag:</p>
+
+<pre><code>/bin/chmod +x /usr/sbin/fdisk
 /bin/chmod +x /usr/sbin/fsck_hfs
 /bin/chmod +x /usr/sbin/newfs_hfs
 /bin/chmod +x /usr/sbin/mount_hfs
 /bin/chmod +x /usr/sbin/umount
 /bin/chmod +x /usr/sbin/nvram
 /bin/chmod +x /usr/sbin/sync
-</code></p>
+</code></pre>
 
 <p>(I'd ask you to also copy <code>asr</code>, but I didn't need to use it.)</p>
 
@@ -151,56 +150,50 @@ xpwntool 022-3655-1.dmg extracted.dmg
 
 <h2>Back up the <code>/var</code> partition</h2>
 
-<p>First, do a backup of the <code>/private/var</code> directory. You will need to do this, because we're about to shrink the <code>/var</code> partition.  Use the following command:
-<code>
-/usr/bin/tar -cf /private.tar --preserve /private/var
-</code></p>
+<p>First, do a backup of the <code>/private/var</code> directory. You will need to do this, because we're about to shrink the <code>/var</code> partition.  Use the following command:</p>
+
+<p>/usr/bin/tar -cf /private.tar --preserve /private/var</p>
 
 <p>You can optionally save it somewhere, but it isn't required.</p>
 
-<p>Now, unmount it:
-<code>
-/usr/sbin/umount -f /private/var
-</code></p>
+<p>Now, unmount it:</p>
+
+<pre><code>/usr/sbin/umount -f /private/var
+</code></pre>
 
 <h1>Editing the partition table to create another rootfs partition</h1>
 
-<p>Time to edit the partition table:
-<code>
-/usr/sbin/fdisk -e /dev/disk0
-</code></p>
+<p>Time to edit the partition table:</p>
+
+<pre><code>/usr/sbin/fdisk -e /dev/disk0
+</code></pre>
 
 <p>Run the <code>print</code> command inside <code>fdisk</code>. Your disk geometry should look something like this: (note, the number of sectors, block size, and geometry may differ depending on the capacity of your iPod touch)</p>
 
-<p>```
-  8GB iPod touch:
-Disk: /dev/disk0        geometry: 983/64/63 [3964928 sectors]
+<pre><code>  8GB iPod touch:
+Disk: /dev/disk0    geometry: 983/64/63 [3964928 sectors]
 Sector size: 2048 bytes
 Offset: 0       Signature: 0xAA55
-         Starting       Ending</p>
-
-<h2> #: id  cyl  hd sec -  cyl  hd sec [     start -       size]</h2>
-
-<p>1: AF    0   1   1 - 1023 254  63 [        63 -     153600] HFS+
+     Starting       Ending
+ #: id  cyl  hd sec -  cyl  hd sec [     start -       size]
+------------------------------------------------------------------------
+ 1: AF    0   1   1 - 1023 254  63 [    63 -     153600] HFS+
  2: AF 1023 254  63 - 1023 254  63 [    153720 -    3657465] HFS+
  3: AF 1023 254  63 - 1023 254  63 [   3811185 -     153600] HFS+
- 4: 00    0   0   0 -    0   0   0 [         0 -          0] unused</p>
+ 4: 00    0   0   0 -    0   0   0 [     0 -      0] unused
 
-<pre><code>16GB iPod touch:
-</code></pre>
-
-<p>Disk: /dev/disk0        geometry: 983/64/63 [3964928 sectors]
+    16GB iPod touch:
+Disk: /dev/disk0    geometry: 983/64/63 [3964928 sectors]
 Sector size: 4096 bytes
 Offset: 0       Signature: 0xAA55
-        Starting       Ending</p>
-
-<h2>#: id  cyl  hd sec -  cyl  hd sec [     start -       size]</h2>
-
-<p>1: AF    0   1   1 - 1023 254  63 [        63 -      76800] HFS+
+    Starting       Ending
+#: id  cyl  hd sec -  cyl  hd sec [     start -       size]
+------------------------------------------------------------------------
+1: AF    0   1   1 - 1023 254  63 [    63 -      76800] HFS+
 2: AF 1023 254  63 - 1023 254  63 [     76863 -    3811059] HFS+
 3: AF 1023 254  63 - 1023 254  63 [   3887922 -      77006] HFS+
-4: 00    0   0   0 -    0   0   0 [         0 -          0] unused
-```</p>
+4: 00    0   0   0 -    0   0   0 [     0 -      0] unused
+</code></pre>
 
 <p><strong>WARNING</strong>: Do not touch partition 1, else you will need to restore and start over.  This is the rootfs of your iPhone OS 1.1.x install.</p>
 
@@ -212,134 +205,127 @@ Offset: 0       Signature: 0xAA55
 
 <p>Lastly, type <code>write</code> to write the changes, and <code>exit</code> out of <code>fdisk</code>.</p>
 
-<p>Sync a couple times to make sure everything is flushed:
-<code>
-/usr/sbin/sync
-/usr/sbin/sync
-/usr/sbin/sync
-</code></p>
+<p>Sync a couple times to make sure everything is flushed:</p>
 
-<p>Check if disk0s2 was secretly relocated to disk0s4, because it happens for some reason:
-<code>
-/bin/ls /dev/disk0s4
-</code></p>
+<pre><code>/usr/sbin/sync
+/usr/sbin/sync
+/usr/sbin/sync
+</code></pre>
 
-<p>If it does show up, you'll need to move it back:
-<code>
-/bin/mv /dev/disk0s4 /dev/disk0s2
+<p>Check if disk0s2 was secretly relocated to disk0s4, because it happens for some reason:</p>
+
+<pre><code>/bin/ls /dev/disk0s4
+</code></pre>
+
+<p>If it does show up, you'll need to move it back:</p>
+
+<pre><code>/bin/mv /dev/disk0s4 /dev/disk0s2
 /bin/mv /dev/rdisk0s4 /dev/rdisk0s2
-</code></p>
+</code></pre>
 
 <h2>Restore <code>/private/var</code></h2>
 
-<p>And now, restore the backup you made earlier:
-<code>
-/usr/sbin/newfs_hfs /dev/disk0s2
+<p>And now, restore the backup you made earlier:</p>
+
+<pre><code>/usr/sbin/newfs_hfs /dev/disk0s2
 /usr/sbin/mount -t hfs /dev/disk0s2 /private/var
 chdir /private/var
 /usr/bin/tar -xvf /private.tar
 /bin/ls /private/var/private/var
 /bin/mv [list of subdirectories inside ./private/var] /private/var
 /bin/rm -rf ./private
-</code>
-<strong>NOTE</strong>: wildcards will not work, so you'll need to type in every subdirectory inside <code>./private/var</code> where the <code>[list of subdirectories inside ./private/var]</code> is located in the <code>mv</code> command.</p>
+</code></pre>
+
+<p><strong>NOTE</strong>: wildcards will not work, so you'll need to type in every subdirectory inside <code>./private/var</code> where the <code>[list of subdirectories inside ./private/var]</code> is located in the <code>mv</code> command.</p>
 
 <h2>Extract the raw hfsx partition from the rootfs inside the ipsw</h2>
 
-<p>You will need to use the <a href="https://github.com/nlitsme/encrypteddmg/blob/master/readencrcdsa.py">readencrcdsa.py</a> script in order to extract the rootfs from 1.0.2, so download it and install all its dependencies.  Then, decrypt the rootfs:
-<code>
-python3 ./readencrcdsa.py [encrypted rootfs] --keydata [rootfs key] --save
-</code></p>
+<p>You will need to use the <a href="https://github.com/nlitsme/encrypteddmg/blob/master/readencrcdsa.py">readencrcdsa.py</a> script in order to extract the rootfs from 1.0.2, so download it and install all its dependencies.  Then, decrypt the rootfs:</p>
+
+<pre><code>python3 ./readencrcdsa.py [encrypted rootfs] --keydata [rootfs key] --save
+</code></pre>
 
 <p>You can find the rootfs decryption key easily on google, I won't link to it for legal reasons.</p>
 
-<p>The resulting <code>694-5298-5-decrypted.dmg</code> is a zlib compressed (UDZO) dmg file, so decompress it and extract partition #3 (<code>Mac_OS_X</code>):
-<code>
-dmg2img 694-5298-5-decrypted.dmg -p 3
-</code></p>
+<p>The resulting <code>694-5298-5-decrypted.dmg</code> is a zlib compressed (UDZO) dmg file, so decompress it and extract partition #3 (<code>Mac_OS_X</code>):</p>
+
+<pre><code>dmg2img 694-5298-5-decrypted.dmg -p 3
+</code></pre>
 
 <p>This will save a <code>694-5298-5-decrypted.img</code> file, which you'll need to upload to the iPod touch.  I have uploaded it to the root of <code>/private/var</code>. You can use iFunbox for faster transfer after the jailbreak as it'll use USB instead of Wi-Fi, but scp/FileZilla works too.</p>
 
 <h2>Copy the extracted partition to the nand</h2>
 
-<p>To copy the extracted partition to the nand, run the following commands on your iPod touch:
-```
-/bin/dd if=/dev/zero of=/dev/rdisk0s3 bs=1048576
-/bin/dd if=/private/var/694-5298-5-decrypted.img of=/dev/rdisk0s3 bs=1048576</p>
+<p>To copy the extracted partition to the nand, run the following commands on your iPod touch:</p>
 
-<p>/usr/sbin/sync
+<pre><code>/bin/dd if=/dev/zero of=/dev/rdisk0s3 bs=1048576
+/bin/dd if=/private/var/694-5298-5-decrypted.img of=/dev/rdisk0s3 bs=1048576
+
 /usr/sbin/sync
 /usr/sbin/sync
-```</p>
+/usr/sbin/sync
+</code></pre>
 
 <p>(Hint: you can use ctrl-T in the terminal to check for progress while <code>dd</code> is running)</p>
 
 <p>This will put a valid HFS+ image on your iPod touch.  Note that we sweep it with zeroes to make sure the <code>fsck_hfs</code> command won't be confused.</p>
 
-<p>Then, run a check to fix up the file system:
-<code>
-/usr/sbin/fsck_hfs /dev/disk0s3
-</code></p>
+<p>Then, run a check to fix up the file system:</p>
 
-<p>You should see this:
-```</p>
+<pre><code>/usr/sbin/fsck_hfs /dev/disk0s3
+</code></pre>
 
-<h1>/usr/sbin/fsck_hfs /dev/rdisk0s3</h1>
+<p>You should see this:</p>
 
-<p><em>* /dev/rdisk0s3
-*</em> Checking HFS Plus volume.
-<em>* Detected a case-sensitive catalog.
-*</em> Checking Extents Overflow file.
-<em>* Checking Catalog file.
-*</em> Checking Catalog hierarchy.
-<em>* Checking volume bitmap.
-*</em> Checking volume information.
+<pre><code># /usr/sbin/fsck_hfs /dev/rdisk0s3
+** /dev/rdisk0s3
+** Checking HFS Plus volume.
+** Detected a case-sensitive catalog.
+** Checking Extents Overflow file.
+** Checking Catalog file.
+** Checking Catalog hierarchy.
+** Checking volume bitmap.
+** Checking volume information.
    Volume Header needs minor repair
-<em>* Repairing volume.
-*</em> Rechecking volume.
-<em>* Checking HFS Plus volume.
-*</em> Detected a case-sensitive catalog.
-<em>* Checking Extents Overflow file.
-*</em> Checking Catalog file.
-<em>* Checking Catalog hierarchy.
-*</em> Checking volume bitmap.
-<em>* Checking volume information.
-*</em> The volume SUHeavenlyJuly1C28.UserBundle was repaired successfully.
-```</p>
+** Repairing volume.
+** Rechecking volume.
+** Checking HFS Plus volume.
+** Detected a case-sensitive catalog.
+** Checking Extents Overflow file.
+** Checking Catalog file.
+** Checking Catalog hierarchy.
+** Checking volume bitmap.
+** Checking volume information.
+** The volume SUHeavenlyJuly1C28.UserBundle was repaired successfully.
+</code></pre>
 
 <h2>Copying the kernelcache from 1.1.1</h2>
 
-<p>Mount the file system:
-<code>
-/bin/mkdir -p /mnt_s3
+<p>Mount the file system:</p>
+
+<pre><code>/bin/mkdir -p /mnt_s3
 /sbin/mount -t hfs /dev/disk0s3 /mnt_s3
-</code></p>
+</code></pre>
 
-<p>Then, you will need to <strong>delete</strong> the kernelcaches it comes with, and copy the 1.1.1 kernelcache to the new partition:
-```
-/bin/rm /mnt<em>s3/System/Library/Caches/com.apple.kernelcaches/kernelcache.s5l8900xrb
-/bin/rm /mnt</em>s3/System/Library/Caches/com.apple.kernelcaches/kernelcache.release.s5l8900xrb</p>
+<p>Then, you will need to <strong>delete</strong> the kernelcaches it comes with, and copy the 1.1.1 kernelcache to the new partition:</p>
 
-<p>/bin/cp /System/Library/Caches/com.apple.kernelcaches/kernelcache.s5l8900xrb /mnt_s3/System/Library/Caches/com.apple.kernelcaches/kernelcache.s5l8900xrb
-```</p>
+<pre><code>/bin/rm /mnt_s3/System/Library/Caches/com.apple.kernelcaches/kernelcache.s5l8900xrb
+/bin/rm /mnt_s3/System/Library/Caches/com.apple.kernelcaches/kernelcache.release.s5l8900xrb
+
+/bin/cp /System/Library/Caches/com.apple.kernelcaches/kernelcache.s5l8900xrb \
+    /mnt_s3/System/Library/Caches/com.apple.kernelcaches/kernelcache.s5l8900xrb
+</code></pre>
 
 <h2>The final stretch</h2>
 
 <p>To run the new OS install, perform the following commands:</p>
 
-<p>```</p>
-
-<h1>/usr/sbin/nvram boot-partition=2</h1>
-
-<h1>/usr/sbin/nvram boot-args="rd=disk0s3 -v"</h1>
-
-<h1>/usr/sbin/nvram auto-boot=true</h1>
-
-<h1>/usr/sbin/sync</h1>
-
-<h1>/sbin/reboot</h1>
-
-<p>```</p>
+<pre><code>/usr/sbin/nvram boot-partition=2
+/usr/sbin/nvram boot-args="rd=disk0s3 -v"
+/usr/sbin/nvram auto-boot=true
+/usr/sbin/sync
+/sbin/reboot
+</code></pre>
 
 <p>You should now boot into iPhone OS 1.0.x!!</p>
 
@@ -347,14 +333,14 @@ dmg2img 694-5298-5-decrypted.dmg -p 3
 
 <p>You will need to place the device into recovery mode. Power off the device, then hold the power button for about 1 second, then start holding the home button.  If the iTunes logo appears alongside a 30-pin cable on the screen, you did it correctly.</p>
 
-<p>Next, use iPHUC on your XP VM to run the following commands:
-<code>
-cmd setenv\ boot-args\ rd=disk0s1
+<p>Next, use iPHUC on your XP VM to run the following commands:</p>
+
+<pre><code>cmd setenv\ boot-args\ rd=disk0s1
 cmd setenv\ boot-partition\ 0
 cmd setenv\ auto-boot\ true
 cmd saveenv
 cmd fsboot
-</code></p>
+</code></pre>
 
 <p>Now you should be back in 1.1.x.</p>
 
@@ -364,7 +350,7 @@ cmd fsboot
 <img src="images/ipod-touch-102-activation.jpg" alt="irl shot of iPhone OS 1.0.2 on iPod touch" title="" />
 <img src="images/ipod-touch-102-settings.jpg" alt="irl shot of iPhone OS 1.0.2 on iPod touch" title="" /></p>
 			<hr>
-			<h5>This article was last modified on Wednesday, April 15, 2026, at 12:48:09. <a href="../index.html">Back to index</a></h5>
+			<h5>This article was last modified on Wednesday, April 15, 2026, at 14:47:00. <a href="../index.html">Back to index</a></h5>
 		</div></div>
 	</body>
 </html>
