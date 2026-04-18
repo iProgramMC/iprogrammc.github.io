@@ -310,6 +310,11 @@ Next, use iPHUC on your XP VM to run the following commands:
 
 Now you should be back in 1.1.x.
 
+## Seeing "Activate iPhone - Connect to iTunes?"
+
+Try mounting disk0s3 and deleting the contents of `/private/var`. (E.g. `/mnt_s3/private/var`)  Also,
+make sure fstab was edited properly.
+
 ## And here it is!
 
 iPhone OS 1.0.2 on an iPod touch! What a beautiful sight!
