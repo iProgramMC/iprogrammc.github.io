@@ -268,6 +268,18 @@ Then, you will need to **delete** the kernelcaches it comes with, and copy the 1
     /bin/cp /System/Library/Caches/com.apple.kernelcaches/kernelcache.s5l8900xrb \
         /mnt_s3/System/Library/Caches/com.apple.kernelcaches/kernelcache.s5l8900xrb
 
+## Editing the fstab
+
+You'll need to edit the fstab of the newly mounted partition.  Download the fstab from your device at
+`/mnt_s3/private/etc/fstab`.  Then edit it so it looks like this:
+
+    /dev/disk0s3 / hfs ro 0 1
+    /dev/disk0s2 /private/var hfs rw,noexec 0 2
+
+(The only important part is editing disk0s1 -> disk0s3)
+
+Then, reupload it to the same place.
+
 Finally:
 
     /usr/sbin/umount /mnt_s3

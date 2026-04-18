@@ -317,6 +317,19 @@ chdir /private/var
     /mnt_s3/System/Library/Caches/com.apple.kernelcaches/kernelcache.s5l8900xrb
 </code></pre>
 
+<h2>Editing the fstab</h2>
+
+<p>You'll need to edit the fstab of the newly mounted partition.  Download the fstab from your device at
+<code>/mnt_s3/private/etc/fstab</code>.  Then edit it so it looks like this:</p>
+
+<pre><code>/dev/disk0s3 / hfs ro 0 1
+/dev/disk0s2 /private/var hfs rw,noexec 0 2
+</code></pre>
+
+<p>(The only important part is editing disk0s1 -> disk0s3)</p>
+
+<p>Then, reupload it to the same place.</p>
+
 <p>Finally:</p>
 
 <pre><code>/usr/sbin/umount /mnt_s3
@@ -356,7 +369,7 @@ cmd fsboot
 <img src="images/ipod-touch-102-activation.jpg" alt="irl shot of iPhone OS 1.0.2 on iPod touch" title="" />
 <img src="images/ipod-touch-102-settings.jpg" alt="irl shot of iPhone OS 1.0.2 on iPod touch" title="" /></p>
 			<hr>
-			<h5>This article was last modified on Wednesday, April 15, 2026, at 16:05:12. <a href="../index.html">Back to index</a></h5>
+			<h5>This article was last modified on Sunday, April 19, 2026, at 00:19:29. <a href="../index.html">Back to index</a></h5>
 		</div></div>
 	</body>
 </html>
